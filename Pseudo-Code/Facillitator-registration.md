@@ -4,7 +4,7 @@ DISPLAY "Facillitator Registration Page"
 
 INPUT Full_Name_And_Surname
 INPUT Email
-INPUT Student_Password
+INPUT Facillitator_Password
 INPUT Retype_Password
 
 IF Full_Name_And_Surname is empty THEN
@@ -17,7 +17,7 @@ DISPLAY "Email is required"
 STOP
 END IF
 
-IF Student_Password is empty THEN
+IF Facillitator_Password is empty THEN
 DISPLAY "Password is required"
 STOP
 END IF
@@ -27,7 +27,7 @@ DISPLAY "Please retype your password"
 STOP
 END IF
 
-IF Student_Password != Retype_Password THEN
+IF Facillitator_Password != Retype_Password THEN
 DISPLAY "Passwords do not match"
 STOP
 END IF

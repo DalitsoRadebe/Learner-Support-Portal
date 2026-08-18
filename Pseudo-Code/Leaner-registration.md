@@ -33,6 +33,11 @@ DISPLAY "Passwords do not match"
 STOP
 END IF
 
+IF Facillitator is clicked THEN
+REDIRECT TO REDIRECT TO 
+"Facillitator Registration page"
+END IF
+
 DISPLAY "Registration Successful"
 
 SAVE Full_Name_And_Surname
