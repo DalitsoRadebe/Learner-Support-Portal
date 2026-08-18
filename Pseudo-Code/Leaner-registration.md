@@ -34,7 +34,7 @@ STOP
 END IF
 
 IF Facillitator is clicked THEN
-REDIRECT TO REDIRECT TO 
+REDIRECT TO 
 "Facillitator Registration page"
 END IF
 

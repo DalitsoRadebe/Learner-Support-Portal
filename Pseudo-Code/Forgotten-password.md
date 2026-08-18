@@ -29,4 +29,10 @@ ELSE
 DISPLAY "Email is not registered"
 STOP
 END IF
+
+IF Resiter is clicked THEN
+REDIRECT TO
+"Registration page"
+END IF
+
 END
