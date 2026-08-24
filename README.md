@@ -10,17 +10,19 @@
    .improve accesibility to learning resource
 
    ## team member and responsibilities
-    refilwe-
-    nathasa-
-    john-
-    katlego-
+    refilwe- "README.md", "Pseudo-code"
+    nathasa- "User-Story", "wire-frame"
+    john-"Pseudo-code", "Trace Table"
+    katlego-"wire-frame", "Trace Table"
 
    ## Technologies
-   . HTML5
-   .CSS3
+   . HTML
+   .CSS
    .JavaScript
    .Git
    .GitHub
+   .Firebase
+   .Figma
 
    ## Development Tools
    . visual Studio Code
@@ -50,7 +52,7 @@
    
    github repository- https://github.com/DalitsoRadebe/Learner-Support-Portal.git
    github project board- https://github.com/users/DalitsoRadebe/projects/1
-   figma-
+   figma-https://www.figma.com/design/anoTkuOQ8T6vLVPFkjxhkh/Untitled?node-id=0-1&t=9e9KwFJW8OwdngeQ-1
 
    
 
