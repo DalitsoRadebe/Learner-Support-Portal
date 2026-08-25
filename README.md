@@ -11,27 +11,39 @@
 
    ## team member and responsibilities
     refilwe- "README.md", "Pseudo-code"
-    nathasa- "User-Story", "wire-frame"
+    natasha- "User-Story", "wire-frame"
     john-"Pseudo-code", "Trace Table"
     katlego-"wire-frame", "Trace Table"
 
    ## Technologies
    . HTML
+   
    .CSS
+   
    .JavaScript
+   
    .Git
+   
    .GitHub
+   
    .Firebase
+   
    .Figma
 
    ## Development Tools
+   
    . visual Studio Code
+   
    .Git bash
+   
    .figma
+   
    .GitHub
 
    ## Repository structure
-   Leraner-support-portal
+   
+   Learner-support-portal
+   
  # Project Structure
 
 ├── README.md
