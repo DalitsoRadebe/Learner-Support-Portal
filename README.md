@@ -32,7 +32,33 @@
 
    ## Repository structure
    Leraner-support-portal
-  │ ├── README.md ├── CHANGELOG.md ├── LICENSE ├── .gitignore │ ├── docs/ │ ├── Client Brief/ │ ├── Requirements/ │ ├── Research/ │ ├── Meeting Minutes/ │ ├── User Stories/ │ ├── Use Cases/ │ ├── Wireframes/ │ ├── UI Designs/ │ └── Test Plan/ │ ├── designs/ │ ├── Figma Link.md │ ├── UI Mockups/ │ └── Images/ │ ├── src/ │ ├── assets/ │ └── presentation/
+ # Project Structure
+
+├── README.md
+├── CHANGELOG.md
+├── LICENSE
+├── .gitignore
+
+├── docs/
+│   ├── Client Brief/
+│   ├── Requirements/
+│   ├── Research/
+│   ├── Meeting Minutes/
+│   ├── User Stories/
+│   ├── Use Cases/
+│   ├── Wireframes/
+│   ├── UI Designs/
+│   └── Test Plan/
+
+├── designs/
+│   ├── Figma Link.md
+│   ├── UI Mockups/
+│   └── Images/
+
+├── src/
+│   └── assets/
+
+└── presentation/
 
 
 
