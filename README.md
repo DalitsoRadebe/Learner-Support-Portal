@@ -11,28 +11,83 @@
 
    ## team member and responsibilities
     refilwe- "README.md", "Pseudo-code"
-    nathasa- "User-Story", "wire-frame"
+    natasha- "User-Story", "wire-frame"
     john-"Pseudo-code", "Trace Table"
     katlego-"wire-frame", "Trace Table"
 
    ## Technologies
    . HTML
+   
    .CSS
+   
    .JavaScript
+   
    .Git
+   
    .GitHub
+   
    .Firebase
+   
    .Figma
 
    ## Development Tools
+   
    . visual Studio Code
+   
    .Git bash
+   
    .figma
+   
    .GitHub
 
    ## Repository structure
-   Leraner-support-portal
-  │ ├── README.md ├── CHANGELOG.md ├── LICENSE ├── .gitignore │ ├── docs/ │ ├── Client Brief/ │ ├── Requirements/ │ ├── Research/ │ ├── Meeting Minutes/ │ ├── User Stories/ │ ├── Use Cases/ │ ├── Wireframes/ │ ├── UI Designs/ │ └── Test Plan/ │ ├── designs/ │ ├── Figma Link.md │ ├── UI Mockups/ │ └── Images/ │ ├── src/ │ ├── assets/ │ └── presentation/
+   
+   Learner-support-portal
+   
+ # Project Structure
+
+├── README.md
+
+├── CHANGELOG.md
+
+├── LICENSE
+
+├── .gitignore
+
+├── docs/
+
+│        ├── Client Brief/
+
+│        ├── Requirements/
+
+│        ├── Research/
+
+│        ├── Meeting Minutes/
+
+│        ├── User Stories/
+
+│        ├── Use Cases/
+
+│        ├── Wireframes/
+
+│        ├── UI Designs/
+
+│        └── Test Plan/
+
+├── designs/
+
+
+│       ├── Figma Link.md
+
+│       ├── UI Mockups/
+
+│       └── Images/
+
+├── src/
+ 
+│       └── assets/
+
+└── presentation/
 
 
 
@@ -51,24 +106,35 @@
   ## Link
    
    github repository- https://github.com/DalitsoRadebe/Learner-Support-Portal.git
+   
    github project board- https://github.com/users/DalitsoRadebe/projects/1
+   
    figma-https://www.figma.com/design/anoTkuOQ8T6vLVPFkjxhkh/Untitled?node-id=0-1&t=9e9KwFJW8OwdngeQ-1
 
+   firebase-
    
 
   ## Chagelog
 
   .new feature
+  
   .major design change
+  
   .bug fixes
+  
   .testing milestones
+  
   .major project releases
 
 
    ## Reference
 
    .client brief
+   
    .project reguirement
+   
    .research document
+   
    .design resource
+   
    .development resource
