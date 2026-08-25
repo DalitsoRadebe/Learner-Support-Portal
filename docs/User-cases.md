@@ -3,6 +3,7 @@ Register Page
 As a learner, I want to create an account using my name, email address and password, so that I can access the Learner Support Portal.
 
 1.I can enter my full name.
+
 2.I can enter a valid email address.
 3.I can create a password.
 4.I can confirm my password.
