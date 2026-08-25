@@ -44,36 +44,36 @@
 
 ├── docs/
 
-│   ├── Client Brief/
+│        ├── Client Brief/
 
-│   ├── Requirements/
+│        ├── Requirements/
 
-│   ├── Research/
+│        ├── Research/
 
-│   ├── Meeting Minutes/
+│        ├── Meeting Minutes/
 
-│   ├── User Stories/
+│        ├── User Stories/
 
-│   ├── Use Cases/
+│        ├── Use Cases/
 
-│   ├── Wireframes/
+│        ├── Wireframes/
 
-│   ├── UI Designs/
+│        ├── UI Designs/
 
-│   └── Test Plan/
+│        └── Test Plan/
 
 ├── designs/
 
 
-│   ├── Figma Link.md
+│       ├── Figma Link.md
 
-│   ├── UI Mockups/
+│       ├── UI Mockups/
 
-│   └── Images/
+│       └── Images/
 
 ├── src/
-
-│   └── assets/
+ 
+│       └── assets/
 
 └── presentation/
 
