@@ -32,11 +32,11 @@
 
    ## Development Tools
    
-   . visual Studio Code
+   . Visual Studio Code
    
    .Git bash
    
-   .figma
+   .Figma
    
    .GitHub
 
@@ -91,7 +91,7 @@
 
 
 
-   ##  milestones
+   ##  Milestones
 
    Week 1: Repository setup & documentation
 
@@ -114,7 +114,7 @@
    firebase-
    
 
-  ## Chagelog
+  ## Changelog
 
   .new feature
   
