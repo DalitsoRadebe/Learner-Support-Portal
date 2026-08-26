@@ -1,18 +1,24 @@
 # Learner-Support-Portal
 
   ## project overview
-   the learner support portal is a web-based system designed to provide learner with streaming access to academic support services,learner resource, essential information,the project aim to deliver a user-friendly platform that enable learner to locate and access the support,this github serves as the sinle source of true for the project
+   the learner support portal is a web-based system designed to provide learner with streaming access to academic support services,learner resource, essential information,the project aim to deliver a user-friendly platform that enable learner to locate and access the support,this github serves as the single source of true for the project
 
    ## project objective
-   . provide learner with efficient acces to support services
+   . provide learner with efficient access to support services 
+   
    . enhance communication between the learner and support services
+   
    .apply professionl software development practices and git workflow
+   
    .improve accesibility to learning resource
 
    ## team member and responsibilities
     refilwe- "README.md", "Pseudo-code"
+    
     natasha- "User-Story", "wire-frame"
+    
     john-"Pseudo-code", "Trace Table"
+    
     katlego-"wire-frame", "Trace Table"
 
    ## Technologies
