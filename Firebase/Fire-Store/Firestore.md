@@ -1,6 +1,6 @@
 users
 │
-├── userId
+ ├── userId
 │   ├── username
 │   ├── email
 │   ├── role
