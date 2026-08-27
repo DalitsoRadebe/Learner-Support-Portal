@@ -4,8 +4,8 @@ users
 │   ├── username
 │   ├── email
 │   ├── role
-│   └── createdAt (timestamp) (when was this created)
-
+│   └── createdAt (time stamp)(when was this created)
+│
 tasks
 │
 ├── taskId
@@ -14,8 +14,8 @@ tasks
 │   ├── description
 │   ├── status
 │   ├── dueDate
-│   └── createdAt (timestamp) (when was this created)
-
+│   └── createdAt (Time stamo)(when was this created)
+│
 supportBookings
 │
 ├── bookingId
@@ -24,8 +24,8 @@ supportBookings
 │   ├── preferredDate
 │   ├── notes
 │   ├── status
-│   └── createdAt (timestamp) (when was this created)
-
+│   └── createdAt (time stamp)(when was this created)
+│
 gameScores
 │
 ├── scoreId
@@ -35,7 +35,7 @@ gameScores
 │   ├── correctAnswers
 │   ├── totalQuestions
 │   └── date
-
+│
 resources
 │
 ├── resourceId
