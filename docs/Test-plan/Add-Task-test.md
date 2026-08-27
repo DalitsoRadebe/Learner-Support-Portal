@@ -1,4 +1,3 @@
-Add Task tests:
 
 Page displays correctly
 Task title can be entered
