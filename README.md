@@ -117,7 +117,7 @@
    
    figma-https://www.figma.com/design/anoTkuOQ8T6vLVPFkjxhkh/Untitled?node-id=0-1&t=9e9KwFJW8OwdngeQ-1
 
-   firebase-
+   firebase-https://console.firebase.google.com/project/student-learning-portal-5cc54/overview
    
 
   ## Changelog
