@@ -1,5 +1,5 @@
 START
-DISPLAY "Student Dashboard"
+DISPLAY "Student Dashboard page"
 DISPLAY "Outstanding Tasks"
 DISPLAY "Completed Tasks"
 DISPLAY "All Tasks"
