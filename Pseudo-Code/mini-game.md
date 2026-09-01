@@ -1,3 +1,10 @@
+DECLARE Score AS INTEGER
+DECLARE Question AS STRING
+DECLARE CorrectAnswer AS STRING
+DECLARE UserAnswer AS STRING
+
+SET Score TO 0
+
 START
 
 DISPLAY "Mini Game Page"
@@ -9,74 +16,79 @@ DISPLAY "Support Booking"
 DISPLAY "Mini Game"
 DISPLAY "Log Out"
 
-DISPLAY "Score"
-DISPLAY "Quiz Question"
-DISPLAY "Option A"
-DISPLAY "Option B"
-DISPLAY "Option C"
-DISPLAY "Option D"
-
-IF My Task is clicked THEN
-REDIRECT TO "My Task Page"
+IF My Task IS CLICKED THEN
+    REDIRECT TO "My Task Page"
 END IF
 
-IF Resources is clicked THEN
-REDIRECT TO "Resources Page"
+IF Resources IS CLICKED THEN
+    REDIRECT TO "Resources Page"
 END IF
 
-IF Progress Report is clicked THEN
-REDIRECT TO "Progress Report Page"
+IF Progress Report IS CLICKED THEN
+    REDIRECT TO "Progress Report Page"
 END IF
 
-IF Support Booking is clicked THEN
-REDIRECT TO "Support Booking Page"
+IF Support Booking IS CLICKED THEN
+    REDIRECT TO "Support Booking Page"
 END IF
 
-IF Mini Game is clicked THEN
-REDIRECT TO "Mini Game Page"
+IF Mini Game IS CLICKED THEN
+    REDIRECT TO "Mini Game Page"
 END IF
 
-IF Log Out is clicked THEN
-REDIRECT TO "Student Login Page"
+IF Log Out IS CLICKED THEN
+    REDIRECT TO "Student Login Page"
 END IF
 
-DISPLAY "Which method filters an array?"
+FETCH Quiz_Questions FROM Firebase
 
-DISPLAY "A. map()"
-DISPLAY "B. filter()"
-DISPLAY "C. pop()"
-DISPLAY "D. push()"
-
-INPUT Answer
-
-IF Answer is "B" THEN
-DISPLAY "Correct Answer"
-ADD 1 TO Score
-ELSE
-DISPLAY "Incorrect Answer"
+IF Quiz_Questions IS EMPTY THEN
+    DISPLAY "No quiz questions available"
+    STOP
 END IF
 
-DISPLAY "Score"
-DISPLAY Score
+FOR EACH Question_Record IN Quiz_Questions
 
-REPEAT
-DISPLAY "Next Quiz Question"
-DISPLAY "Option A"
-DISPLAY "Option B"
-DISPLAY "Option C"
-DISPLAY "Option D"
-INPUT Answer
+    DISPLAY "Score: " + Score
 
-IF Answer is correct THEN
-DISPLAY "Correct Answer"
-ADD 1 TO Score
-ELSE
-DISPLAY "Incorrect Answer"
+    SET Question TO Question_Record.Question
+    SET CorrectAnswer TO Question_Record.CorrectAnswer
+
+    DISPLAY Question
+
+    DISPLAY "A. " + Question_Record.OptionA
+    DISPLAY "B. " + Question_Record.OptionB
+    DISPLAY "C. " + Question_Record.OptionC
+    DISPLAY "D. " + Question_Record.OptionD
+
+    INPUT UserAnswer
+
+    IF UserAnswer = CorrectAnswer THEN
+        DISPLAY "Correct Answer"
+        ADD 1 TO Score
+    ELSE
+        DISPLAY "Incorrect Answer"
+        DISPLAY "Correct Answer: " + CorrectAnswer
+    END IF
+
+    DISPLAY "Current Score: " + Score
+
+END FOR
+
+DISPLAY "Quiz Completed"
+DISPLAY "Final Score: " + Score
+
+SAVE Score TO Firebase
+
+DISPLAY "Play Again"
+DISPLAY "Exit"
+
+IF Play Again IS CLICKED THEN
+    RELOAD "Mini Game Page"
 END IF
 
-DISPLAY "Score"
-DISPLAY Score
-
-UNTIL Mini Game is exited
+IF Exit IS CLICKED THEN
+    REDIRECT TO "Dashboard Page"
+END IF
 
 END
