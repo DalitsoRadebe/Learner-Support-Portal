@@ -103,19 +103,19 @@ Complete all development, documentation, testing and presentation requirements.
 KEY PROJECT LINKS
 
 
-Resource	                 Purpose
+Resource	     AND            Purpose
 
 
-GitHub Repository  	   Stores the project source code and documentation
+GitHub Repository  	-   Stores the project source code and documentation
 
 
-GitHub Project Board	 Tracks tasks, responsibilities and project progress.
+GitHub Project Board	-  Tracks tasks, responsibilities and project progress.
 
 
-Figma	                 Used for wireframes and UI designs.
+Figma	               -  Used for wireframes and UI designs.
 
 
-Firebase	            Used as part of the project's development and backend services.
+Firebase	             -   Used as part of the project's development and backend services.
 
 
 Follow-Up Meeting
