@@ -16,7 +16,9 @@ Added
 
 8. Created the GitHub Project Board.
 
-9.Added the figma link to docs/wireframe.
+9. Added the figma link to docs/wireframe.
+
+10. Added START.sql
 
 
 
