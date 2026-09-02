@@ -97,6 +97,8 @@
 
 
 
+
+
    ##  Milestones
 
    Week 1: Repository setup & documentation
@@ -108,6 +110,25 @@
    Week 4: Testing & client feedback
 
    Week 5: Final delivery
+
+
+    ## Documentation
+
+    1 client
+
+    2 reguirement
+
+    3 Research
+
+    4 Meeting minutes
+
+    5 users story
+
+    6 Wireframe
+
+    7 ul Design
+
+    8 tests plan
 
   ## Link
    
@@ -136,7 +157,8 @@
 
    ## Licence
 
-    This project is licensed under the MIT licence
+    This project is developed foe educational purpose
+    
     - see the LICENCE file for details
 
 
