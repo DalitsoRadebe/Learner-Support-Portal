@@ -133,6 +133,13 @@
   .major project releases
 
 
+
+   ## Licence
+
+    This project is licensed under the MIT licence
+    - see the LICENCE file for details
+
+
    ## Reference
 
    .client brief
