@@ -2,13 +2,14 @@ START
 
 DISPLAY "Add Task Page"
 
+DISPLAY "Cancel"
+DISPLAY "Save Task"
+DISPLAY "Delete"
 
 
 INPUT Task_Title
 INPUT Category
 INPUT Date
-
-SET Task_title TO TRUE
 
 IF Task_Title is empty THEN
 DISPLAY "Task title is required"
@@ -25,18 +26,33 @@ DISPLAY "Date is required"
 STOP
 END IF
 
-DISPLAY "Cancel"
-DISPLAY "Save Task"
-DISPLAY "Delete"
+IF Delete IS CLICKED THEN
 
-IF Delete is clicked 
-DISPLAY "Are you sure" THEN
-DISPLAY "Yes, delete"
-DISPLAY "Do not delete task"
-IF "Yes, Delete" is clicked THEN
-SET task_title TO FALSE
-ELSE SET task_title TO TRUE
-END IF
+    IF Task_ID EXISTS THEN
+
+        DISPLAY "Are you sure you want to delete this task?"
+        DISPLAY "Yes, Delete"
+        DISPLAY "Cancel"
+
+        IF "Yes, Delete" IS CLICKED THEN
+
+            DELETE Task WHERE Task_ID = Selected_Task_ID
+
+            DISPLAY "Task deleted successfully"
+            REDIRECT TO "Task Manager Page"
+
+        ELSE
+
+            DISPLAY "Task deletion cancelled"
+
+        END IF
+
+    ELSE
+
+        DISPLAY "No task selected"
+
+    END IF
+
 END IF
 
 IF Cancel is clicked THEN
