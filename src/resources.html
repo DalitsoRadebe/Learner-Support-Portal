@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resources — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <h1>Resources</h1>
+        <div class="panel">
+          <ul class="recent-list">
+            <li><span>JavaScript fundamentals guide</span><span class="status-pill pending">PDF</span></li>
+            <li><span>Firebase quick-start</span><span class="status-pill pending">Link</span></li>
+            <li><span>Portfolio checklist</span><span class="status-pill pending">PDF</span></li>
+          </ul>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script>
+    requireAuth();
+    renderShell('resources');
+  </script>
+</body>
+</html>

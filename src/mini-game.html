@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JavaScript Challenge — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <h1>JavaScript Challenge</h1>
+        <p class="quiz-score">SCORE: <span id="score">0</span></p>
+
+        <div class="panel">
+          <div class="quiz-question" id="quiz-area">
+            <p>Press "Start Game" to begin the challenge.</p>
+          </div>
+          <div style="text-align:center">
+            <button class="btn" id="submit-btn" style="display:none">SUBMIT ANSWER</button>
+            <button class="btn btn-primary" id="start-btn">START GAME</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script>
+    const user = requireAuth('student');
+    renderShell('game');
+
+    const QUESTIONS = [
+      { q: 'Which method filters an array?', options: ['map()', 'filter()', 'reduce()', 'loop()'], answer: 1 },
+      { q: 'Which keyword declares a block-scoped variable?', options: ['var', 'let', 'function', 'static'], answer: 1 },
+      { q: 'What does JSON.stringify() do?', options: ['Parses JSON text', 'Converts a value to JSON text', 'Deletes a key', 'Clones the DOM'], answer: 1 },
+      { q: 'Which method adds an item to the end of an array?', options: ['shift()', 'unshift()', 'push()', 'pop()'], answer: 2 },
+      { q: 'What does "===" check?', options: ['Value only', 'Value and type', 'Type only', 'Reference only'], answer: 1 },
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    if (user) {
+      score = getQuizScore(user.email);
+      document.getElementById('score').textContent = score;
+    }
+
+    function renderQuestion() {
+      const item = QUESTIONS[current];
+      document.getElementById('quiz-area').innerHTML = `
+        <p>${item.q}</p>
+        <ul class="quiz-options">
+          ${item.options.map((opt, i) => `
+            <li><label><input type="radio" name="answer" value="${i}" /> ${String.fromCharCode(97 + i)}. ${opt}</label></li>
+          `).join('')}
+        </ul>
+      `;
+    }
+
+    document.getElementById('start-btn').addEventListener('click', () => {
+      current = 0;
+      score = 0;
+      document.getElementById('score').textContent = score;
+      document.getElementById('submit-btn').style.display = 'inline-block';
+      document.getElementById('start-btn').textContent = 'RESTART GAME';
+      renderQuestion();
+    });
+
+    document.getElementById('submit-btn').addEventListener('click', () => {
+      const picked = document.querySelector('input[name="answer"]:checked');
+      if (!picked) {
+        alert('Choose an answer first.');
+        return;
+      }
+      if (Number(picked.value) === QUESTIONS[current].answer) {
+        score += 20;
+        document.getElementById('score').textContent = score;
+      }
+      current += 1;
+      if (current >= QUESTIONS.length) {
+        document.getElementById('quiz-area').innerHTML = `<p>Challenge complete! Final score: <strong>${score}</strong></p>`;
+        document.getElementById('submit-btn').style.display = 'none';
+        if (user) setQuizScore(user.email, score);
+      } else {
+        renderQuestion();
+      }
+    });
+  </script>
+</body>
+</html>

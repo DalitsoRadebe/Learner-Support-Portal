@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <a class="back-link" href="javascript:history.back()">&larr; Back</a>
+        <div class="panel">
+          <div class="profile-header">
+            <div class="profile-avatar">&#128100;</div>
+            <div>
+              <h1 class="profile-name" id="profile-name"></h1>
+              <p class="profile-email" id="profile-email"></p>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <a class="btn" href="settings.html">Settings</a>
+            <a class="btn" href="settings.html#password">Passwords</a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script>
+    const user = requireAuth();
+    renderShell('');
+    if (user) {
+      document.getElementById('profile-name').textContent = user.name;
+      document.getElementById('profile-email').textContent = user.email;
+    }
+  </script>
+</body>
+</html>

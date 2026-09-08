@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Learning Progress — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <h1>My Learning Progress</h1>
+
+        <div class="panel" style="margin-bottom:20px">
+          <h2 style="text-align:center">OVERALL PROGRESS</h2>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="label">Completed</div>
+            <div class="value" id="stat-completed"></div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Outstanding</div>
+            <div class="value" id="stat-outstanding"></div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Overdue</div>
+            <div class="value" id="stat-overdue"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header"><h2>Recent activity</h2></div>
+          <ul class="recent-list" id="activity-list"></ul>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script>
+    const user = requireAuth('student');
+    renderShell('progress');
+
+    function isOverdue(task) {
+      if (task.completed) return false;
+      const due = new Date(task.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      due.setHours(0, 0, 0, 0);
+      return due < today;
+    }
+
+    if (user) {
+      const tasks = getTasks(user.email);
+      const completed = tasks.filter(t => t.completed).length;
+      const overdue = tasks.filter(isOverdue).length;
+      const outstanding = tasks.length - completed;
+      const progress = tasks.length ? Math.round((completed / tasks.length) * 100) : 0;
+
+      document.getElementById('progress-fill').style.width = progress + '%';
+      document.getElementById('stat-completed').textContent = completed;
+      document.getElementById('stat-outstanding').textContent = outstanding;
+      document.getElementById('stat-overdue').textContent = overdue;
+
+      const bookings = getBookings(user.email);
+      const activity = [
+        ...tasks.filter(t => t.completed).map(t => `${t.title} task completed`),
+        ...bookings.map(() => 'Support session booked'),
+        ...tasks.filter(isOverdue).map(t => `${t.title} task outstanding`),
+      ];
+
+      document.getElementById('activity-list').innerHTML = activity.slice(0, 8).map(a => `<li><span>${a}</span></li>`).join('')
+        || '<li><span>No activity yet.</span></li>';
+    }
+  </script>
+</body>
+</html>

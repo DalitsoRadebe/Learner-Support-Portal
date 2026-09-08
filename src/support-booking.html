@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support Booking — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <div class="app">
+
+<aside class="sidebar" id="sidebar"></aside>
+
+<div class="main">
+
+  <header class="topbar" id="topbar"></header>
+
+  <main class="content">
+
+    
+
+    <div class="panel">
+
+      <div class="panel-header">
+        <h2>Book Support</h2>
+      </div>
+
+      <p class="helper-text">
+        Book a support session when you need help with your SkillsTrack
+        learning activities, tasks, or technical issues.
+      </p>
+
+      <form id="support-booking-form">
+
+        <div class="field">
+          <label for="support-type">Support Type</label>
+
+          <select id="support-type" required>
+            <option value="">Select support type</option>
+            <option value="Academic Support">Academic Support</option>
+            <option value="Technical Support">Technical Support</option>
+            <option value="Task Assistance">Task Assistance</option>
+            <option value="Career Guidance">Career Guidance</option>
+            <option value="General Support">General Support</option>
+          </select>
+
+          <div class="error-text" id="type-error"></div>
+        </div>
+
+
+        <div class="field">
+          <label for="support-date">Preferred Date</label>
+
+          <input
+            type="date"
+            id="support-date"
+            required
+          />
+
+          <div class="error-text" id="date-error"></div>
+        </div>
+
+
+        <div class="field">
+          <label for="support-time">Preferred Time</label>
+
+          <select id="support-time" required>
+            <option value="">Select a time</option>
+            <option value="09:00">09:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+          </select>
+
+          <div class="error-text" id="time-error"></div>
+        </div>
+
+
+        <div class="field">
+          <label for="support-message">
+            What do you need help with?
+          </label>
+
+          <textarea
+            id="support-message"
+            rows="6"
+            placeholder="Describe what you need help with..."
+            required
+          ></textarea>
+
+          <div class="error-text" id="message-error"></div>
+        </div>
+
+
+        <div class="form-footer">
+
+          <a href="dashboard.html" class="btn-link">
+            Cancel
+          </a>
+
+          <button type="submit" class="btn btn-primary">
+            Book Support
+          </button>
+
+        </div>
+
+      </form>
+
+      <div
+        id="form-message"
+        class="form-message"
+        hidden
+      ></div>
+
+    </div>
+
+
+
+    <div class="panel" style="margin-top: 24px;">
+
+      <div class="panel-header">
+        <h2>My Support Bookings</h2>
+      </div>
+
+      <ul
+        class="recent-list"
+        id="booking-list"
+      ></ul>
+
+    </div>
+
+  </main>
+  </div>
+
+    </div>
+
+  <script src="js/storage.js"></script>
+
+  <script src="js/shell.js"></script>
+
+  <script>
+    const user = requireAuth('student');
+
+    renderShell('support-booking');
+
+    const form =
+      document.getElementById('support-booking-form');
+
+    const supportType =
+      document.getElementById('support-type');
+
+    const supportDate =
+      document.getElementById('support-date');
+
+    const supportTime =
+      document.getElementById('support-time');
+
+    const supportMessage =
+      document.getElementById('support-message');
+
+    const formMessage =
+      document.getElementById('form-message');
+
+    const bookingList =
+      document.getElementById('booking-list');
+
+    const today = new Date();
+
+    const todayString =
+      today.getFullYear() +
+      '-' +
+      String(today.getMonth() + 1).padStart(2, '0') +
+      '-' +
+      String(today.getDate()).padStart(2, '0');
+
+    supportDate.min = todayString;
+
+
+    function getSupportBookings(email) {
+
+      const key = 'supportBookings_' + email;
+
+      try {
+        return JSON.parse(
+          localStorage.getItem(key)
+        ) || [];
+
+      } catch (error) {
+
+        return [];
+      }
+    }
+
+
+    function saveSupportBookings(email, bookings) {
+
+      const key = 'supportBookings_' + email;
+
+      localStorage.setItem(
+        key,
+        JSON.stringify(bookings)
+      );
+    }
+
+    function escapeHTML(value) {
+
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+
+    function renderBookings() {
+
+      if (!user) return;
+
+      const bookings =
+        getSupportBookings(user.email);
+
+
+      if (!bookings.length) {
+
+        bookingList.innerHTML =
+          '<li><span>No support bookings yet.</span></li>';
+
+        return;
+      }
+
+
+      const sortedBookings =
+        [...bookings].sort(
+          (a, b) =>
+            new Date(a.date + 'T' + a.time) -
+            new Date(b.date + 'T' + b.time)
+        );
+
+
+      bookingList.innerHTML =
+        sortedBookings.map(booking => {
+
+          const formattedDate =
+            new Date(
+              booking.date + 'T00:00:00'
+            ).toLocaleDateString(
+              undefined,
+              {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+              }
+            );
+
+
+          return `
+            <li>
+
+              <span>
+                <strong>
+                  ${escapeHTML(booking.supportType)}
+                </strong>
+
+                <br>
+
+                ${escapeHTML(formattedDate)}
+                at
+                ${escapeHTML(booking.time)}
+              </span>
+
+              <span class="status-pill pending">
+                ${escapeHTML(booking.status)}
+              </span>
+
+            </li>
+          `;
+
+        }).join('');
+    }
+
+
+    function clearErrors() {
+
+      document.getElementById('type-error').textContent = '';
+      document.getElementById('date-error').textContent = '';
+      document.getElementById('time-error').textContent = '';
+      document.getElementById('message-error').textContent = '';
+    }
+
+
+    function showMessage(message, type) {
+
+      formMessage.textContent = message;
+
+      formMessage.className =
+        'form-message ' + type;
+
+      formMessage.hidden = false;
+    }
+
+
+    form.addEventListener('submit', function(event) {
+
+      event.preventDefault();
+
+      clearErrors();
+
+      formMessage.hidden = true;
+
+
+      let valid = true;
+
+
+      if (!supportType.value) {
+
+        document.getElementById('type-error').textContent =
+          'Please select a support type.';
+
+        valid = false;
+      }
+
+
+      if (!supportDate.value) {
+
+        document.getElementById('date-error').textContent =
+          'Please select a date.';
+
+        valid = false;
+
+      } else if (supportDate.value < todayString) {
+
+        document.getElementById('date-error').textContent =
+          'Please select today or a future date.';
+
+        valid = false;
+      }
+
+
+      if (!supportTime.value) {
+
+        document.getElementById('time-error').textContent =
+          'Please select a preferred time.';
+
+        valid = false;
+      }
+
+
+      if (!supportMessage.value.trim()) {
+
+        document.getElementById('message-error').textContent =
+          'Please describe what you need help with.';
+
+        valid = false;
+      }
+
+
+      if (!valid) return;
+
+
+
+      const booking = {
+
+        id: Date.now(),
+
+        userEmail: user.email,
+
+        supportType: supportType.value,
+
+        date: supportDate.value,
+
+        time: supportTime.value,
+
+        message: supportMessage.value.trim(),
+
+        status: 'Pending',
+
+        createdAt: new Date().toISOString()
+
+      };
+
+
+      const bookings =
+        getSupportBookings(user.email);
+
+
+      bookings.push(booking);
+
+
+      saveSupportBookings(
+        user.email,
+        bookings
+      );
+
+
+
+      form.reset();
+
+
+      /* Keep date restriction */
+      supportDate.min = todayString;
+
+
+      showMessage(
+        'Your support booking has been submitted successfully.',
+        'success'
+      );
+
+
+      renderBookings();
+
+    });
+
+
+    if (user) {
+      renderBookings();
+    }
+
+  </script>
+
+</body>
+</html>

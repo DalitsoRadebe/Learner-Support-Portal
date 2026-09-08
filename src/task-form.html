@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Task — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <div class="panel" style="max-width:560px;margin:0 auto">
+          <div class="panel-header">
+            <h1 style="margin:0" id="form-title">ADD NEW TASK</h1>
+            <button class="btn-link" id="delete-btn" type="button" style="display:none;color:var(--danger)">DELETE</button>
+          </div>
+
+          <form id="task-form">
+            <div class="field">
+              <label for="title">Task Title</label>
+              <input id="title" required />
+            </div>
+
+            <div class="field">
+              <label for="category">Category</label>
+              <select id="category">
+                <option>Javascript</option>
+                <option>Firebase</option>
+                <option>Documentation</option>
+                <option>HTML/CSS</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="date">Date</label>
+              <input id="date" type="date" required />
+            </div>
+
+            <div class="form-footer">
+              <a class="btn-link" href="tasks.html">CANCEL</a>
+              <button class="btn btn-primary" type="submit">SAVE TASK</button>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script>
+    const user = requireAuth('student');
+    renderShell('tasks');
+
+    const params = new URLSearchParams(window.location.search);
+    const taskId = params.get('id');
+    let editingTask = null;
+
+    if (taskId && user) {
+      editingTask = getTasks(user.email).find(t => t.id === taskId) || null;
+      if (editingTask) {
+        document.getElementById('form-title').textContent = 'EDIT TASK';
+        document.getElementById('title').value = editingTask.title;
+        document.getElementById('category').value = editingTask.category;
+        document.getElementById('date').value = editingTask.date;
+        const deleteBtn = document.getElementById('delete-btn');
+        deleteBtn.style.display = 'inline';
+        deleteBtn.addEventListener('click', () => {
+          if (confirm('Delete this task?')) {
+            deleteTask(user.email, editingTask.id);
+            window.location.href = 'tasks.html';
+          }
+        });
+      }
+    }
+
+    document.getElementById('task-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value.trim();
+      const category = document.getElementById('category').value;
+      const date = document.getElementById('date').value;
+      if (!title || !date) return;
+
+      if (editingTask) {
+        updateTask(user.email, editingTask.id, { title, category, date });
+      } else {
+        addTask(user.email, { title, category, date });
+      }
+      window.location.href = 'tasks.html';
+    });
+  </script>
+</body>
+</html>
