@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="auth-page">
+    <form class="card" id="register-form" novalidate autocomplete="on">
+      <h1>Register</h1>
+      <p class="helper-text">Create your student account</p>
+
+      <div class="field">
+        <label for="name">Full name</label>
+        <input id="name" name="name" autocomplete="name" placeholder="Student's name" required />
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="Student email" required />
+      </div>
+
+      <div class="field">
+        <label for="password">Create Password</label>
+        <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Student Password" required minlength="6" />
+      </div>
+
+      <div class="field">
+        <label for="confirm">Re-enter password</label>
+        <input id="confirm" name="confirm" type="password" autocomplete="new-password" placeholder="Student password" required />
+        <div class="error-text" id="error"></div>
+      </div>
+
+      <button class="btn btn-primary" type="submit" style="width:100%">Create account</button>
+
+      <div class="form-footer">
+        <a class="btn-link" href="login.html">Already have an account? Login</a>
+        <a class="btn" href="register-facilitator.html">Facilitator</a>
+      </div>
+    </form>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script>
+    document.getElementById('register-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm').value;
+      const errorEl = document.getElementById('error');
+      errorEl.textContent = '';
+
+      if (!name || !email || !password) {
+        errorEl.textContent = 'Please fill in every field.';
+        return;
+      }
+      if (password !== confirm) {
+        errorEl.textContent = 'Passwords do not match.';
+        return;
+      }
+
+      const result = registerUser({ name, email, password, role: 'student' });
+      if (!result.ok) {
+        errorEl.textContent = result.error;
+        return;
+      }
+
+      login(email, password);
+      window.location.href = 'dashboard-learner.html';
+    });
+  </script>
+</body>
+</html>

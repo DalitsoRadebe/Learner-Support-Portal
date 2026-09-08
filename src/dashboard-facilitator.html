@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assessor Dashboard — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <h1>Dashboard</h1>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="label">Total Students</div>
+            <div class="value" id="stat-total"></div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Outstanding Tasks</div>
+            <div class="value" id="stat-outstanding"></div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Completed Tasks</div>
+            <div class="value" id="stat-completed"></div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Average Progress</div>
+            <div class="value" id="stat-average"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Student Overview</h2>
+            <input class="search-input" id="search" type="search" placeholder="Search Students" />
+          </div>
+          <div style="overflow-x:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Class</th>
+                  <th>Completed Tasks</th>
+                  <th>Progress</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="student-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script>
+    requireAuth('facilitator');
+    renderShell('dashboard');
+
+    document.getElementById('stat-total').textContent = FACILITATOR_STATS.totalStudents;
+    document.getElementById('stat-outstanding').textContent = FACILITATOR_STATS.outstandingTasks;
+    document.getElementById('stat-completed').textContent = FACILITATOR_STATS.completedTasks;
+    document.getElementById('stat-average').textContent = FACILITATOR_STATS.averageProgress + '%';
+
+    function statusClass(status) {
+      return status === 'On Track' ? 'on-track' : 'needs-attention';
+    }
+
+    function renderStudents(filter) {
+      const term = (filter || '').toLowerCase();
+      const rows = FACILITATOR_STUDENTS.filter(s =>
+        s.name.toLowerCase().includes(term) || s.class.toLowerCase().includes(term)
+      );
+      document.getElementById('student-rows').innerHTML = rows.map(s => `
+        <tr>
+          <td>${s.name}</td>
+          <td>${s.class}</td>
+          <td>${s.completedTasks}</td>
+          <td>${s.progress}%</td>
+          <td><span class="status-pill ${statusClass(s.status)}">${s.status}</span></td>
+        </tr>
+      `).join('') || '<tr><td colspan="5">No students match your search.</td></tr>';
+    }
+
+    renderStudents('');
+    document.getElementById('search').addEventListener('input', (e) => renderStudents(e.target.value));
+  </script>
+</body>
+</html>

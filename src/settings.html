@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <h1>Settings</h1>
+
+        <div class="panel settings-section">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px">
+            <div class="profile-avatar" style="width:56px;height:56px;font-size:22px">&#128100;</div>
+            <div>
+              <div style="font-size:12px;color:var(--muted)">Username</div>
+              <div id="settings-username" style="font-weight:700"></div>
+              <div style="font-size:12px;color:var(--muted)" id="settings-role"></div>
+            </div>
+          </div>
+        </div>
+
+        <form class="panel settings-section" id="password-form">
+          <div class="panel-header">
+            <h2 id="password">Change Password</h2>
+            <button class="btn btn-primary" type="submit">Update password</button>
+          </div>
+          <div class="field">
+            <label for="current-password">Current password</label>
+            <input id="current-password" type="password" placeholder="Enter current password" required />
+          </div>
+          <div class="field">
+            <label for="new-password">New password</label>
+            <input id="new-password" type="password" placeholder="Enter new password" required minlength="6" />
+          </div>
+          <div class="field">
+            <label for="confirm-password">Confirm new password</label>
+            <input id="confirm-password" type="password" placeholder="Confirm new password" required />
+            <div class="error-text" id="password-error"></div>
+          </div>
+        </form>
+
+        <form class="panel settings-section" id="notifications-form">
+          <div class="panel-header">
+            <h2>Notification settings</h2>
+            <button class="btn btn-primary" type="submit">Save changes</button>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <div class="title">Email notifications</div>
+              <div class="desc">Receive email updates about tasks, progress and updates.</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggle-email" checked />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <div class="title">Task reminders</div>
+              <div class="desc">Receive reminders about upcoming and due tasks.</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggle-reminders" checked />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </form>
+
+        <form class="panel settings-section" id="privacy-form">
+          <div class="panel-header">
+            <h2>Privacy settings</h2>
+            <button class="btn btn-primary" type="submit">Save changes</button>
+          </div>
+          <p style="color:var(--muted);font-size:13px;margin-top:-8px">Manage your privacy and data preferences</p>
+          <div class="toggle-row">
+            <div>
+              <div class="title">Profile visibility</div>
+              <div class="desc">Control who can see your profile information</div>
+            </div>
+            <div class="select-wrap">
+              <select id="visibility">
+                <option>Only me</option>
+                <option>Facilitators</option>
+                <option>Everyone</option>
+              </select>
+            </div>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <div class="title">Active status</div>
+              <div class="desc">Allow others to see when you're active</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggle-active" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </form>
+
+        <div class="form-message success" id="save-message" hidden></div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script>
+    const user = requireAuth();
+    renderShell('');
+
+    if (user) {
+      document.getElementById('settings-username').textContent = user.name;
+      document.getElementById('settings-role').textContent = user.role === 'facilitator' ? 'Facilitator' : 'Learner';
+    }
+
+    function flashSaved(text) {
+      const msg = document.getElementById('save-message');
+      msg.hidden = false;
+      msg.textContent = text;
+      setTimeout(() => { msg.hidden = true; }, 2500);
+    }
+
+    document.getElementById('password-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const current = document.getElementById('current-password').value;
+      const next = document.getElementById('new-password').value;
+      const confirm = document.getElementById('confirm-password').value;
+      const errorEl = document.getElementById('password-error');
+      errorEl.textContent = '';
+
+      if (current !== user.password) {
+        errorEl.textContent = 'Current password is incorrect.';
+        return;
+      }
+      if (next !== confirm) {
+        errorEl.textContent = 'New passwords do not match.';
+        return;
+      }
+      updateCurrentUser({ password: next });
+      e.target.reset();
+      flashSaved('Password updated successfully.');
+    });
+
+    document.getElementById('notifications-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      flashSaved('Notification settings saved.');
+    });
+
+    document.getElementById('privacy-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      flashSaved('Privacy settings saved.');
+    });
+
+    if (window.location.hash === '#password') {
+      document.getElementById('password').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

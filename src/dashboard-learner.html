@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <h1>Dashboard</h1>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="label">Outstanding tasks</div>
+            <div class="value" id="stat-outstanding"></div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Completed Tasks</div>
+            <div class="value" id="stat-completed"></div>
+          </div>
+          <div class="stat-card">
+            <div class="label">All Tasks</div>
+            <div class="value" id="stat-all"></div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Progress</div>
+            <div class="value" id="stat-progress"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Recent Tasks</h2>
+            <a class="btn-link" href="tasks.html">View All</a>
+          </div>
+          <ul class="recent-list" id="recent-list"></ul>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script>
+    const user = requireAuth('student');
+    renderShell('dashboard');
+
+    function dayDiffFromToday(dateStr) {
+      const due = new Date(dateStr);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      due.setHours(0, 0, 0, 0);
+      return Math.round((due - today) / 86400000);
+    }
+
+    function taskStatus(task) {
+      if (task.completed) return { label: 'Completed', cls: 'on-track' };
+      const diff = dayDiffFromToday(task.date);
+      if (diff < 0) return { label: 'Overdue', cls: 'overdue' };
+      if (diff <= 3) return { label: 'Due Soon', cls: 'due-soon' };
+      return { label: 'Pending', cls: 'pending' };
+    }
+
+    if (user) {
+      const tasks = getTasks(user.email);
+      const completed = tasks.filter(t => t.completed).length;
+      const outstanding = tasks.length - completed;
+      const progress = tasks.length ? Math.round((completed / tasks.length) * 100) : 0;
+
+      document.getElementById('stat-outstanding').textContent = outstanding;
+      document.getElementById('stat-completed').textContent = completed;
+      document.getElementById('stat-all').textContent = tasks.length;
+      document.getElementById('stat-progress').textContent = progress + '%';
+
+      const recent = [...tasks].sort((a, b) => new Date(a.date) - new Date(b.date)).slice(0, 5);
+      document.getElementById('recent-list').innerHTML = recent.map(t => {
+        const status = taskStatus(t);
+        return `<li><span>${t.title}</span><span class="status-pill ${status.cls}">${status.label}</span></li>`;
+      }).join('') || '<li><span>No tasks yet — add one from My Tasks.</span></li>';
+    }
+  </script>
+</body>
+</html>

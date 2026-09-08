@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="auth-page">
+    <form class="card" id="login-form" novalidate>
+      <h1>Login</h1>
+      <p class="helper-text">Students and facilitators both sign in here</p>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="Student or Facilitator Email" required />
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Password" required />
+        <div class="error-text" id="error"></div>
+      </div>
+
+      <div class="form-footer">
+        <button class="btn btn-primary" type="submit">Login</button>
+        <a class="btn-link" href="forgot-password.html">Forgot password</a>
+      </div>
+
+      <div class="form-footer" style="margin-top:20px;justify-content:center">
+        <a class="btn" href="register.html">Register</a>
+      </div>
+    </form>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('error');
+
+      const user = login(email, password);
+      if (!user) {
+        errorEl.textContent = 'Incorrect email or password.';
+        return;
+      }
+      window.location.href = user.role === 'facilitator' ? 'dashboard-facilitator.html' : 'dashboard-learner.html';
+    });
+  </script>
+</body>
+</html>

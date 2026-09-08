@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Tasks — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <h1>My learning task</h1>
+
+        <div class="panel">
+          <div class="toolbar">
+            <div class="toolbar-group">
+              <input class="search-input" id="search" type="search" placeholder="Search task" />
+              <div class="select-wrap">
+                <select id="filter">
+                  <option value="all">Filter: All</option>
+                  <option value="pending">Pending</option>
+                  <option value="completed">Completed</option>
+                  <option value="overdue">Overdue</option>
+                </select>
+              </div>
+              <div class="select-wrap">
+                <select id="sort">
+                  <option value="date">Sort: Due Date</option>
+                  <option value="title">Sort: Title</option>
+                </select>
+              </div>
+            </div>
+            <a class="btn btn-primary" href="task-form.html">+ Add Task</a>
+          </div>
+
+          <div style="overflow-x:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Due</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="task-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script>
+    const user = requireAuth('student');
+    renderShell('tasks');
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr);
+      if (isNaN(d)) return dateStr;
+      return d.toLocaleDateString(undefined, { day: '2-digit', month: 'short' });
+    }
+
+    function isOverdue(task) {
+      if (task.completed) return false;
+      const due = new Date(task.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      due.setHours(0, 0, 0, 0);
+      return due < today;
+    }
+
+    function render() {
+      if (!user) return;
+      const term = document.getElementById('search').value.toLowerCase();
+      const filter = document.getElementById('filter').value;
+      const sort = document.getElementById('sort').value;
+
+      let tasks = getTasks(user.email).filter(t => t.title.toLowerCase().includes(term));
+
+      if (filter === 'pending') tasks = tasks.filter(t => !t.completed && !isOverdue(t));
+      if (filter === 'completed') tasks = tasks.filter(t => t.completed);
+      if (filter === 'overdue') tasks = tasks.filter(isOverdue);
+
+      tasks.sort((a, b) => sort === 'title'
+        ? a.title.localeCompare(b.title)
+        : new Date(a.date) - new Date(b.date));
+
+      document.getElementById('task-rows').innerHTML = tasks.map(t => `
+        <tr>
+          <td>
+            ${t.title}${t.completed ? ' <span class="status-pill on-track">Completed</span>' : ''}
+            ${isOverdue(t) ? ' <span class="status-pill overdue">Overdue</span>' : ''}
+            <div class="row-actions" style="margin-top:6px">
+              <button data-action="complete" data-id="${t.id}">${t.completed ? 'Mark incomplete' : 'Complete'}</button>
+              <a href="task-form.html?id=${t.id}">Edit</a>
+              <button class="danger" data-action="delete" data-id="${t.id}">Delete</button>
+            </div>
+          </td>
+          <td>${formatDate(t.date)}</td>
+          <td></td>
+        </tr>
+      `).join('') || '<tr><td colspan="3">No tasks found. Click "+ Add Task" to create one.</td></tr>';
+    }
+
+    document.getElementById('task-rows').addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const id = btn.dataset.id;
+      if (btn.dataset.action === 'complete') {
+        const task = getTasks(user.email).find(t => t.id === id);
+        updateTask(user.email, id, { completed: !task.completed });
+      } else if (btn.dataset.action === 'delete') {
+        if (confirm('Delete this task?')) deleteTask(user.email, id);
+      }
+      render();
+    });
+
+    ['search', 'filter', 'sort'].forEach(id => document.getElementById(id).addEventListener('input', render));
+    render();
+  </script>
+</body>
+</html>
