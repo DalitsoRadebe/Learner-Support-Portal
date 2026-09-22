@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Facilitator Register — SkillsTrack</title>
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
+</head>
+
+<body>
+
+  <div class="auth-page">
+
+    <form
+      class="card"
+      id="register-form"
+      novalidate
+    >
+
+      <h1>Facilitator Registration</h1>
+
+      <p class="helper-text">
+        Create your facilitator account
+      </p>
+
+      <div class="field">
+
+        <label for="name">
+          Full Name and Surname
+        </label>
+
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Facilitator's name"
+          required
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="email">
+          Email
+        </label>
+
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Facilitator email"
+          required
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="password">
+          Facilitator Password
+        </label>
+
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Facilitator Password"
+          required
+          minlength="6"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="confirm">
+          Retype Password
+        </label>
+
+        <input
+          id="confirm"
+          name="confirm"
+          type="password"
+          placeholder="Retype Password"
+          required
+        >
+
+        <div
+          class="error-text"
+          id="error"
+        ></div>
+
+      </div>
+
+      <button
+        class="btn btn-primary"
+        type="submit"
+        style="width:100%"
+      >
+        Register
+      </button>
+
+      <div
+        class="form-footer"
+        style="margin-top:20px;justify-content:center"
+      >
+
+        <a
+          class="btn-link"
+          href="login.html"
+        >
+          Already have an account? Login
+        </a>
+
+      </div>
+
+      <div
+        class="form-footer"
+        style="margin-top:10px;justify-content:center"
+      >
+
+        <a
+          class="btn"
+          href="register.html"
+        >
+          Student Register
+        </a>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  <script
+    type="module"
+    src="js/facilitator-register.js"
+  ></script>
+
+</body>
+
+</html>
