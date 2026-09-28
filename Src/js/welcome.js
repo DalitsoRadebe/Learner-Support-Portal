@@ -1,12 +1,11 @@
 // Welcome Page JavaScript
 
-document.querySelector(".btn")
-    .addEventListener(
+document.querySelector(".btn").addEventListener(
         "click",
         function() {
 
             window.location.href =
-                "register.html";
+                "register-facilitator.html";
 
         }
     );

@@ -69,6 +69,19 @@ function friendlyAuthError(error) {
 // REGISTER USER
 // =========================================================
 
+import {
+    createUserWithEmailAndPassword,
+    deleteUser
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+import {
+    doc,
+    setDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+import { auth, db } from "../../Firebase/firebase.js";
+
 export async function registerUser({
     name,
     email,
