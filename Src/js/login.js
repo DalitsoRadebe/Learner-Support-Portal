@@ -1,99 +1,28 @@
-// Login JavaScript
+import { loginAccount } from "./auth.js";
 
-import {
-    loginUser,
-    getUserProfile,
-    friendlyAuthError
-} from "./data.js";
+const existing = getCurrentUser();
+if (existing) window.location.href = dashboardFor(existing);
 
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const errorEl = document.getElementById('error');
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  errorEl.textContent = '';
 
-document.getElementById("login-form")
-    .addEventListener("submit", async function(e) {
+  if (!email || !password) {
+    errorEl.textContent = 'Please enter your email and password.';
+    return;
+  }
 
-        e.preventDefault();
+  submitBtn.disabled = true;
+  const result = await loginAccount(email, password);
+  submitBtn.disabled = false;
 
-        const email =
-            document.getElementById("email")
-                .value
-                .trim();
-
-        const password =
-            document.getElementById("password")
-                .value;
-
-        const errorEl =
-            document.getElementById("error");
-
-
-        // Clear previous message
-        errorEl.textContent = "";
-
-
-        // Check if email is empty
-        if (!email) {
-            errorEl.textContent =
-                "Email is required";
-            return;
-        }
-
-
-        // Check if password is empty
-        if (!password) {
-            errorEl.textContent =
-                "Password is required";
-            return;
-        }
-
-
-        try {
-
-            // Login with Firebase
-            const user =
-                await loginUser(
-                    email,
-                    password
-                );
-
-
-            // Get user's profile and role
-            const profile =
-                await getUserProfile(
-                    user.uid
-                );
-
-
-            if (!profile) {
-                errorEl.textContent =
-                    "User profile not found.";
-                return;
-            }
-
-
-            // Login successful
-            errorEl.textContent =
-                "Login Successful";
-
-
-            // Redirect according to role
-            if (profile.role === "facilitator") {
-
-                window.location.href =
-                    "dashboard-facilitator.html";
-
-            } else {
-
-                window.location.href =
-                    "dashboard-learner.html";
-
-            }
-
-        } catch (error) {
-
-            console.error(error);
-
-            errorEl.textContent =
-                friendlyAuthError(error);
-
-        }
-
-    });
+  if (!result.ok) {
+    errorEl.textContent = result.error;
+    return;
+  }
+  window.location.href = dashboardFor(result.user);
+});

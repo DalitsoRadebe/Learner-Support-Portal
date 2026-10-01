@@ -1,109 +1,68 @@
-// Support Booking JavaScript
 
-import {
-    requireAuth,
-    addBookingDoc
-} from "./data.js";
+const user = requireAuth('student');
 
-import { renderShell } from "./shell.js";
+function renderBookings() {
+  const bookings = getBookings(user.email)
+    .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
 
+  document.getElementById('booking-list').innerHTML = bookings.map(b => {
+    const past = dayDiffFromToday(b.date) < 0;
+    return `
+      <li>
+        <span>
+          <strong>${escapeHtml(b.topic)}</strong>
+          <span class="status-pill ${past ? 'pending' : 'on-track'}">${past ? 'Past' : 'Upcoming'}</span><br />
+          <span class="muted">${escapeHtml(formatDate(b.date))} at ${escapeHtml(b.time)}</span>
+          ${b.notes ? `<br /><span class="muted">${escapeHtml(b.notes)}</span>` : ''}
+        </span>
+        <span class="row-actions">
+          <button type="button" class="danger" data-id="${escapeHtml(b.id)}">Cancel</button>
+        </span>
+      </li>`;
+  }).join('') || '<li><span>No sessions booked yet.</span></li>';
+}
 
-requireAuth("student", function(fbUser, profile) {
+if (user) {
+  renderShell('support');
 
-    renderShell("support");
+  const dateEl = document.getElementById('date');
+  dateEl.min = todayString();
+  document.getElementById('topic').innerHTML = TASK_CATEGORIES.map(c => `<option>${escapeHtml(c)}</option>`).join('');
 
+  document.getElementById('booking-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const topic = document.getElementById('topic').value;
+    const date = dateEl.value;
+    const time = document.getElementById('time').value;
+    const notes = document.getElementById('notes').value.trim();
+    const errorEl = document.getElementById('error');
+    errorEl.textContent = '';
 
-    const form =
-        document.getElementById("support-form");
+    if (!date || !time) {
+      errorEl.textContent = 'Please choose a date and a time.';
+      return;
+    }
+    if (dayDiffFromToday(date) < 0) {
+      errorEl.textContent = 'Please choose a date that is today or later.';
+      return;
+    }
+    if (getBookings(user.email).some(b => b.date === date && b.time === time)) {
+      errorEl.textContent = 'You already have a session booked at that time.';
+      return;
+    }
 
+    addBooking(user.email, { topic, date, time, notes });
+    e.target.reset();
+    renderBookings();
+    flashMessage('Support session booked.');
+  });
 
-    form.addEventListener(
-        "submit",
-        async function(e) {
+  document.getElementById('booking-list').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-id]');
+    if (!btn || !confirm('Cancel this booking?')) return;
+    deleteBooking(user.email, btn.dataset.id);
+    renderBookings();
+  });
 
-            e.preventDefault();
-
-
-            const topic =
-                document.getElementById("topic")
-                    .value
-                    .trim();
-
-            const preferredDate =
-                document.getElementById("preferred-date")
-                    .value;
-
-            const notes =
-                document.getElementById("notes")
-                    .value
-                    .trim();
-
-
-            const topicError =
-                document.getElementById("topic-error");
-
-            const dateError =
-                document.getElementById("date-error");
-
-            const successMessage =
-                document.getElementById("success-message");
-
-
-            topicError.textContent = "";
-            dateError.textContent = "";
-            successMessage.hidden = true;
-
-
-            if (!topic) {
-
-                topicError.textContent =
-                    "Topic is required";
-
-                return;
-            }
-
-
-            if (!preferredDate) {
-
-                dateError.textContent =
-                    "Preferred date is required";
-
-                return;
-            }
-
-
-            try {
-
-                await addBookingDoc(
-                    fbUser.uid,
-                    {
-                        topic: topic,
-                        date: preferredDate,
-                        notes: notes
-                    }
-                );
-
-
-                successMessage.textContent =
-                    "Support Session Booked Successfully";
-
-                successMessage.hidden = false;
-
-                form.reset();
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                successMessage.textContent =
-                    "Unable to book support session. Please try again.";
-
-                successMessage.hidden = false;
-
-            }
-
-        }
-    );
-
-});
+  renderBookings();
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assign Tasks — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <h1>Assign tasks</h1>
+
+        <div class="split">
+          <div class="panel">
+            <div class="panel-header">
+              <h2>New task</h2>
+            </div>
+
+            <form id="assign-form" novalidate>
+              <div class="field">
+                <label for="student">Send to</label>
+                <select id="student"><option value="">Loading…</option></select>
+              </div>
+
+              <div class="field">
+                <label for="title">Task Title</label>
+                <input id="title" maxlength="120" required />
+              </div>
+
+              <div class="field-row">
+                <div class="field">
+                  <label for="category">Category</label>
+                  <select id="category"></select>
+                </div>
+                <div class="field">
+                  <label for="date">Due date</label>
+                  <input id="date" type="date" required />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="instructions">Instructions (optional)</label>
+                <textarea id="instructions" maxlength="500"></textarea>
+                <div class="error-text" id="error" role="alert"></div>
+              </div>
+
+              <div class="form-footer">
+                <span class="muted">Only students registered in this browser are listed.</span>
+                <button class="btn btn-primary" id="send-btn" type="submit">SEND TASK</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h2>Tasks you have sent</h2>
+            </div>
+            <div style="overflow-x:auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>Student</th>
+                    <th>Due</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="assigned-rows"><tr><td colspan="5">Loading…</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/assign-task.js"></script>
+</body>
+</html>

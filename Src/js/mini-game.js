@@ -1,249 +1,80 @@
-// Mini Game JavaScript
+const user = requireAuth('student');
 
-import {
-    requireAuth,
-    updateUserProfile
-} from "./data.js";
+const POINTS_PER_QUESTION = 20;
+const QUESTIONS = [
+  { q: 'Which method filters an array?', options: ['map()', 'filter()', 'reduce()', 'loop()'], answer: 1 },
+  { q: 'Which keyword declares a block-scoped variable?', options: ['var', 'let', 'function', 'static'], answer: 1 },
+  { q: 'What does JSON.stringify() do?', options: ['Parses JSON text', 'Converts a value to JSON text', 'Deletes a key', 'Clones the DOM'], answer: 1 },
+  { q: 'Which method adds an item to the end of an array?', options: ['shift()', 'unshift()', 'push()', 'pop()'], answer: 2 },
+  { q: 'What does "===" check?', options: ['Value only', 'Value and type', 'Type only', 'Reference only'], answer: 1 },
+];
 
-import { renderShell } from "./shell.js";
+if (user) {
+  renderShell('game');
 
+  const quizArea = document.getElementById('quiz-area');
+  const scoreEl = document.getElementById('score');
+  const bestEl = document.getElementById('best');
+  const feedback = document.getElementById('feedback');
+  const submitBtn = document.getElementById('submit-btn');
+  const startBtn = document.getElementById('start-btn');
 
-requireAuth("student", async function(fbUser, profile) {
+  let current = 0;
+  let score = 0;
+  let best = getQuizScore(user.email);
+  bestEl.textContent = best;
 
-    renderShell("game");
+  function renderQuestion() {
+    const item = QUESTIONS[current];
+    quizArea.innerHTML = `
+      <p class="muted">Question ${current + 1} of ${QUESTIONS.length}</p>
+      <p>${escapeHtml(item.q)}</p>
+      <ul class="quiz-options">
+        ${item.options.map((opt, i) => `
+          <li><label><input type="radio" name="answer" value="${i}" /> ${String.fromCharCode(97 + i)}. ${escapeHtml(opt)}</label></li>
+        `).join('')}
+      </ul>
+    `;
+  }
 
-
-    const QUESTIONS = [
-        {
-            question: "Which method filters an array?",
-            optionA: "map()",
-            optionB: "filter()",
-            optionC: "reduce()",
-            optionD: "loop()",
-            correctAnswer: "B"
-        },
-        {
-            question: "Which keyword declares a block-scoped variable?",
-            optionA: "var",
-            optionB: "let",
-            optionC: "function",
-            optionD: "static",
-            correctAnswer: "B"
-        },
-        {
-            question: "What does JSON.stringify() do?",
-            optionA: "Parses JSON text",
-            optionB: "Converts a value to JSON text",
-            optionC: "Deletes a key",
-            optionD: "Clones the DOM",
-            correctAnswer: "B"
-        },
-        {
-            question: "Which method adds an item to the end of an array?",
-            optionA: "shift()",
-            optionB: "unshift()",
-            optionC: "push()",
-            optionD: "pop()",
-            correctAnswer: "C"
-        },
-        {
-            question: 'What does "===" check?',
-            optionA: "Value only",
-            optionB: "Value and type",
-            optionC: "Type only",
-            optionD: "Reference only",
-            correctAnswer: "B"
-        }
-    ];
-
-
-    let score = 0;
-    let currentQuestion = 0;
-
-
-    const quizArea =
-        document.getElementById("quiz-area");
-
-    const scoreDisplay =
-        document.getElementById("score");
-
-    const submitButton =
-        document.getElementById("submit-btn");
-
-    const startButton =
-        document.getElementById("start-btn");
-
-
-    scoreDisplay.textContent = score;
-
-
-    // Display a question
-    function displayQuestion() {
-
-        const question =
-            QUESTIONS[currentQuestion];
-
-
-        quizArea.innerHTML = `
-            <p>${question.question}</p>
-
-            <ul class="quiz-options">
-
-                <li>
-                    <label>
-                        <input type="radio" name="answer" value="A">
-                        A. ${question.optionA}
-                    </label>
-                </li>
-
-                <li>
-                    <label>
-                        <input type="radio" name="answer" value="B">
-                        B. ${question.optionB}
-                    </label>
-                </li>
-
-                <li>
-                    <label>
-                        <input type="radio" name="answer" value="C">
-                        C. ${question.optionC}
-                    </label>
-                </li>
-
-                <li>
-                    <label>
-                        <input type="radio" name="answer" value="D">
-                        D. ${question.optionD}
-                    </label>
-                </li>
-
-            </ul>
-        `;
+  function finish() {
+    const correct = score / POINTS_PER_QUESTION;
+    const isNewBest = score > best;
+    if (isNewBest) {
+      best = score;
+      setQuizScore(user.email, best);
+      bestEl.textContent = best;
     }
+    quizArea.innerHTML = `
+      <p>Challenge complete! You got ${correct} of ${QUESTIONS.length} right.</p>
+      <p>Final score: <strong>${score}</strong>${isNewBest ? ' — new best!' : ''}</p>
+    `;
+    submitBtn.hidden = true;
+  }
 
+  startBtn.addEventListener('click', () => {
+    current = 0;
+    score = 0;
+    scoreEl.textContent = score;
+    feedback.textContent = '';
+    submitBtn.hidden = false;
+    startBtn.textContent = 'RESTART GAME';
+    renderQuestion();
+  });
 
-    // Start the game
-    startButton.addEventListener(
-        "click",
-        function() {
-
-            score = 0;
-            currentQuestion = 0;
-
-            scoreDisplay.textContent = score;
-
-            submitButton.style.display =
-                "inline-block";
-
-            startButton.textContent =
-                "RESTART GAME";
-
-            displayQuestion();
-
-        }
-    );
-
-
-    // Submit answer
-    submitButton.addEventListener(
-        "click",
-        async function() {
-
-            const selectedAnswer =
-                document.querySelector(
-                    'input[name="answer"]:checked'
-                );
-
-
-            if (!selectedAnswer) {
-
-                alert(
-                    "Choose an answer first."
-                );
-
-                return;
-            }
-
-
-            const userAnswer =
-                selectedAnswer.value;
-
-            const correctAnswer =
-                QUESTIONS[currentQuestion]
-                    .correctAnswer;
-
-
-            if (userAnswer === correctAnswer) {
-
-                alert("Correct Answer");
-
-                score = score + 1;
-
-            } else {
-
-                alert(
-                    "Incorrect Answer. Correct Answer: "
-                    + correctAnswer
-                );
-
-            }
-
-
-            scoreDisplay.textContent =
-                score;
-
-
-            currentQuestion =
-                currentQuestion + 1;
-
-
-            // Check if quiz is completed
-            if (
-                currentQuestion >=
-                QUESTIONS.length
-            ) {
-
-                quizArea.innerHTML = `
-                    <p>Quiz Completed</p>
-                    <p>Final Score: ${score}</p>
-                `;
-
-
-                submitButton.style.display =
-                    "none";
-
-
-                // Save score to Firebase
-                try {
-
-                    await updateUserProfile(
-                        fbUser.uid,
-                        {
-                            quizScore: score
-                        }
-                    );
-
-                } catch (error) {
-
-                    console.error(
-                        "Unable to save quiz score:",
-                        error
-                    );
-
-                }
-
-
-                startButton.textContent =
-                    "PLAY AGAIN";
-
-
-            } else {
-
-                displayQuestion();
-
-            }
-
-        }
-    );
-
-});
+  submitBtn.addEventListener('click', () => {
+    const picked = document.querySelector('input[name="answer"]:checked');
+    if (!picked) {
+      feedback.textContent = 'Choose an answer first.';
+      return;
+    }
+    feedback.textContent = '';
+    if (Number(picked.value) === QUESTIONS[current].answer) {
+      score += POINTS_PER_QUESTION;
+      scoreEl.textContent = score;
+    }
+    current += 1;
+    if (current >= QUESTIONS.length) finish();
+    else renderQuestion();
+  });
+}

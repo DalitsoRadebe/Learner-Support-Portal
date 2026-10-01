@@ -1089,3 +1089,71 @@ th {
         align-items: flex-start;
     }
 }
+/* =========================================================
+   ASSIGN TASKS
+   ========================================================= */
+
+.split {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(0, 2fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.muted {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.task-done {
+    text-decoration: line-through;
+    color: var(--muted);
+}
+
+.toast {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 10;
+    background: #ffffff;
+}
+
+@media (max-width: 900px) {
+
+    .split,
+    .field-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   PROFILE PICTURES
+   ========================================================= */
+
+.avatar,
+.profile-avatar {
+    overflow: hidden;
+}
+
+.avatar img,
+.profile-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#photo-actions {
+    margin-top: 16px;
+}
+
+/* Hidden elements stay hidden even when a class sets display */
+[hidden] {
+    display: none !important;
+}

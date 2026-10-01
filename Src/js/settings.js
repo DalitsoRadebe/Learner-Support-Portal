@@ -1,186 +1,70 @@
-// Settings JavaScript
+import { changePassword } from "./auth.js";
 
-import {
-    requireAuth,
-    updateUserProfile
-} from "./data.js";
+const user = requireAuth();
 
-import { renderShell } from "./shell.js";
+if (user) {
+  renderShell('');
 
+  document.getElementById('settings-avatar').innerHTML = avatarHtml(user);
+  document.getElementById('settings-username').textContent = user.name;
+  document.getElementById('settings-role').textContent = user.role === 'facilitator' ? 'Facilitator' : 'Learner';
 
-requireAuth(null, function(fbUser, profile) {
+  const settings = getSettings(user);
+  const emailToggle = document.getElementById('toggle-email');
+  const remindersToggle = document.getElementById('toggle-reminders');
+  const visibilitySelect = document.getElementById('visibility');
+  const activeToggle = document.getElementById('toggle-active');
 
-    renderShell("");
+  emailToggle.checked = settings.notifications.email;
+  remindersToggle.checked = settings.notifications.reminders;
+  visibilitySelect.value = settings.privacy.visibility;
+  activeToggle.checked = settings.privacy.activeStatus;
 
+  document.getElementById('password-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const current = document.getElementById('current-password').value;
+    const next = document.getElementById('new-password').value;
+    const confirmed = document.getElementById('confirm-password').value;
+    const errorEl = document.getElementById('password-error');
+    errorEl.textContent = '';
 
-    document.getElementById("settings-username")
-        .textContent = profile.name;
-
-
-    document.getElementById("settings-role")
-        .textContent =
-            profile.role === "facilitator"
-                ? "Facilitator"
-                : "Learner";
-
-
-    // Show saved message
-    function flashSaved(messageText) {
-
-        const message =
-            document.getElementById(
-                "save-message"
-            );
-
-        message.hidden = false;
-
-        message.textContent =
-            messageText;
-
-
-        setTimeout(function() {
-
-            message.hidden = true;
-
-        }, 2500);
-
+    if (!current) {
+      errorEl.textContent = 'Please enter your current password.';
+      return;
     }
+    if (next.length < 6) {
+      errorEl.textContent = 'New password should be at least 6 characters.';
+      return;
+    }
+    if (next !== confirmed) {
+      errorEl.textContent = 'New passwords do not match.';
+      return;
+    }
+    // The password is kept by Firebase, which also checks the current one.
+    const result = await changePassword(user.email, current, next);
+    if (!result.ok) {
+      errorEl.textContent = result.error;
+      return;
+    }
+    e.target.reset();
+    flashMessage('Password updated successfully.');
+  });
 
+  document.getElementById('notifications-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    settings.notifications = { email: emailToggle.checked, reminders: remindersToggle.checked };
+    updateCurrentUser({ settings });
+    flashMessage('Notification settings saved.');
+  });
 
-    // Change Username
-    document.getElementById("username-btn")
-        .addEventListener(
-            "click",
-            async function() {
+  document.getElementById('privacy-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    settings.privacy = { visibility: visibilitySelect.value, activeStatus: activeToggle.checked };
+    updateCurrentUser({ settings });
+    flashMessage('Privacy settings saved.');
+  });
 
-                const newUsername =
-                    document.getElementById(
-                        "new-username"
-                    )
-                    .value
-                    .trim();
-
-
-                if (!newUsername) {
-
-                    alert(
-                        "Username is required"
-                    );
-
-                    return;
-                }
-
-
-                try {
-
-                    await updateUserProfile(
-                        fbUser.uid,
-                        {
-                            name: newUsername
-                        }
-                    );
-
-
-                    document.getElementById(
-                        "settings-username"
-                    ).textContent =
-                        newUsername;
-
-
-                    document.getElementById(
-                        "new-username"
-                    ).value = "";
-
-
-                    flashSaved(
-                        "Username Updated Successfully"
-                    );
-
-                } catch (error) {
-
-                    console.error(error);
-
-                    alert(
-                        "Unable to update username."
-                    );
-
-                }
-
-            }
-        );
-
-
-    // Notification Settings
-    document.getElementById("notification-btn")
-        .addEventListener(
-            "click",
-            async function() {
-
-                try {
-
-                    await updateUserProfile(
-                        fbUser.uid,
-                        {
-                            notifications: {
-                                email: true,
-                                reminders: true
-                            }
-                        }
-                    );
-
-
-                    flashSaved(
-                        "Notification settings saved."
-                    );
-
-                } catch (error) {
-
-                    console.error(error);
-
-                    alert(
-                        "Unable to save notification settings."
-                    );
-
-                }
-
-            }
-        );
-
-
-    // Privacy Settings
-    document.getElementById("privacy-btn")
-        .addEventListener(
-            "click",
-            async function() {
-
-                try {
-
-                    await updateUserProfile(
-                        fbUser.uid,
-                        {
-                            privacy: {
-                                visibility: "Only me",
-                                activeStatus: false
-                            }
-                        }
-                    );
-
-
-                    flashSaved(
-                        "Privacy settings saved."
-                    );
-
-                } catch (error) {
-
-                    console.error(error);
-
-                    alert(
-                        "Unable to save privacy settings."
-                    );
-
-                }
-
-            }
-        );
-
-});
+  if (window.location.hash === '#password') {
+    document.getElementById('password').scrollIntoView({ behavior: 'smooth' });
+  }
+}

@@ -1,140 +1,61 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Learning Progress — SkillsTrack</title>
-
-  <link
-    rel="stylesheet"
-    href="css/style.css"
-  >
-
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-
 <body>
-
   <div class="app">
-
-    <aside
-      class="sidebar"
-      id="sidebar"
-    ></aside>
-
+    <aside class="sidebar" id="sidebar"></aside>
     <div class="main">
-
-      <header
-        class="topbar"
-        id="topbar"
-      ></header>
-
+      <header class="topbar" id="topbar"></header>
       <main class="content">
-
         <h1>My Learning Progress</h1>
 
-        <div
-          class="panel"
-          style="margin-bottom:20px"
-        >
-
-          <h2 style="text-align:center">
-            OVERALL PROGRESS
-          </h2>
-
-          <div class="progress-bar-track">
-
-            <div
-              class="progress-bar-fill"
-              id="progress-fill"
-              style="width:0%"
-            ></div>
-
+        <div class="panel" style="margin-bottom:20px">
+          <h2 style="text-align:center">OVERALL PROGRESS: <span id="progress-label">0%</span></h2>
+          <div class="progress-bar-track" id="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
           </div>
-
         </div>
 
         <div class="stat-grid">
-
           <div class="stat-card">
-
-            <div class="label">
-              Completed
-            </div>
-
-            <div
-              class="value"
-              id="stat-completed"
-            >
-              0
-            </div>
-
+            <div class="label">Completed</div>
+            <div class="value" id="stat-completed"></div>
           </div>
-
           <div class="stat-card">
-
-            <div class="label">
-              Outstanding
-            </div>
-
-            <div
-              class="value"
-              id="stat-outstanding"
-            >
-              0
-            </div>
-
+            <div class="label">Outstanding</div>
+            <div class="value" id="stat-outstanding"></div>
           </div>
-
           <div class="stat-card">
-
-            <div class="label">
-              Overdue
-            </div>
-
-            <div
-              class="value"
-              id="stat-overdue"
-            >
-              0
-            </div>
-
+            <div class="label">Overdue</div>
+            <div class="value" id="stat-overdue"></div>
           </div>
+          <div class="stat-card">
+            <div class="label">Best quiz score</div>
+            <div class="value" id="stat-quiz"></div>
+          </div>
+        </div>
 
+        <div class="panel" style="margin-bottom:20px">
+          <div class="panel-header"><h2>Progress by category</h2></div>
+          <ul class="recent-list" id="category-list"></ul>
         </div>
 
         <div class="panel">
-
-          <div class="panel-header">
-
-            <h2>Recent Activity</h2>
-
-          </div>
-
-          <ul
-            class="recent-list"
-            id="activity-list"
-          ></ul>
-
+          <div class="panel-header"><h2>Recent activity</h2></div>
+          <ul class="recent-list" id="activity-list"></ul>
         </div>
-
       </main>
-
     </div>
-
   </div>
 
-  <script
-    type="module"
-    src="js/progress.js"
-  ></script>
-
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/progress.js"></script>
 </body>
-
 </html>

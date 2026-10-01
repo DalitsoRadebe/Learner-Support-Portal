@@ -1,54 +1,30 @@
-// Forgot Password JavaScript
+import { sendResetLink } from "./auth.js";
 
-import {
-    sendReset,
-    friendlyAuthError
-} from "./data.js";
+const message = document.getElementById('message');
 
+function show(text, kind) {
+  message.hidden = false;
+  message.className = 'form-message ' + kind;
+  message.textContent = text;
+}
 
-const form =
-    document.getElementById("forgot-form");
+document.getElementById('forgot-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const submitBtn = e.target.querySelector('button[type="submit"]');
 
-const emailInput =
-    document.getElementById("email");
+  if (!email) {
+    show('Please enter your email address.', 'error');
+    return;
+  }
 
-const message =
-    document.getElementById("message");
+  submitBtn.disabled = true;
+  const result = await sendResetLink(email);
+  submitBtn.disabled = false;
 
-
-// Check email and send reset email
-form.addEventListener("submit", async function(e) {
-
-    e.preventDefault();
-
-    const email =
-        emailInput.value.trim();
-
-    message.hidden = false;
-
-
-    // Check if email is empty
-    if (!email) {
-        message.textContent =
-            "Email is required";
-        return;
-    }
-
-
-    try {
-
-        await sendReset(email);
-
-        message.textContent =
-            "Password reset email sent. Check your email and follow the instructions.";
-
-    } catch (error) {
-
-        console.error(error);
-
-        message.textContent =
-            friendlyAuthError(error);
-
-    }
-
+  if (!result.ok) {
+    show(result.error, 'error');
+    return;
+  }
+  show('If an account exists for this email, a reset link has been sent. Check your inbox and your spam folder.', 'success');
 });

@@ -1,76 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard — SkillsTrack</title>
-
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-
 <body>
-
   <div class="app">
-
     <aside class="sidebar" id="sidebar"></aside>
-
     <div class="main">
-
       <header class="topbar" id="topbar"></header>
-
       <main class="content">
-
-        <h1>Dashboard</h1>
+        <h1 id="greeting">Dashboard</h1>
 
         <div class="stat-grid">
-
           <div class="stat-card">
             <div class="label">Outstanding tasks</div>
             <div class="value" id="stat-outstanding"></div>
           </div>
-
           <div class="stat-card">
             <div class="label">Completed Tasks</div>
             <div class="value" id="stat-completed"></div>
           </div>
-
           <div class="stat-card">
             <div class="label">All Tasks</div>
             <div class="value" id="stat-all"></div>
           </div>
-
           <div class="stat-card">
             <div class="label">Progress</div>
             <div class="value" id="stat-progress"></div>
           </div>
-
         </div>
 
         <div class="panel">
-
           <div class="panel-header">
-
             <h2>Recent Tasks</h2>
-
-            <a class="btn-link" href="tasks.html">
-              View All
-            </a>
-
+            <a class="btn-link" href="tasks.html">View All</a>
           </div>
-
           <ul class="recent-list" id="recent-list"></ul>
-
         </div>
-
       </main>
-
     </div>
-
   </div>
 
-  <script type="module" src="js/student-dashboard.js"></script>
-
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/dashboard-learner.js"></script>
 </body>
-
 </html>

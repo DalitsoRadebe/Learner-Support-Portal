@@ -1,154 +1,32 @@
-// Progress Report JavaScript
+const user = requireAuth('student');
 
-import {
-    requireAuth,
-    getTasks,
-    getBookings
-} from "./data.js";
+if (user) {
+  renderShell('progress');
 
-import { renderShell } from "./shell.js";
+  const tasks = getTasks(user.email);
+  const stats = taskStats(tasks);
 
+  document.getElementById('progress-fill').style.width = stats.progress + '%';
+  document.getElementById('progress-label').textContent = stats.progress + '%';
+  document.getElementById('progress-track').setAttribute('aria-valuenow', stats.progress);
+  document.getElementById('stat-completed').textContent = stats.completed;
+  document.getElementById('stat-outstanding').textContent = stats.outstanding;
+  document.getElementById('stat-overdue').textContent = stats.overdue;
+  document.getElementById('stat-quiz').textContent = getQuizScore(user.email);
 
-requireAuth("student", async function(fbUser, profile) {
+  const categories = [...new Set(tasks.map(t => t.category || 'Other'))].sort();
+  document.getElementById('category-list').innerHTML = categories.map(category => {
+    const s = taskStats(tasks.filter(t => (t.category || 'Other') === category));
+    return `<li><span>${escapeHtml(category)}</span><span>${s.completed} of ${s.total} done (${s.progress}%)</span></li>`;
+  }).join('') || '<li><span>No tasks yet.</span></li>';
 
-    renderShell("progress");
+  const activity = [
+    ...tasks.filter(isOverdue).map(t => `${t.title} task overdue`),
+    ...tasks.filter(t => t.completed).map(t => `${t.title} task completed`),
+    ...getBookings(user.email).map(b => `Support session booked for ${formatDate(b.date)}`),
+  ];
 
-
-    function isOverdue(task) {
-
-        if (task.completed) {
-            return false;
-        }
-
-        const due = new Date(task.date);
-        const today = new Date();
-
-        today.setHours(0, 0, 0, 0);
-        due.setHours(0, 0, 0, 0);
-
-        return due < today;
-    }
-
-
-    try {
-
-        const tasks =
-            await getTasks(fbUser.uid);
-
-        const bookings =
-            await getBookings(fbUser.uid);
-
-
-        // Calculate progress
-
-        const completed =
-            tasks.filter(function(task) {
-                return task.completed;
-            }).length;
-
-
-        const overdue =
-            tasks.filter(function(task) {
-                return isOverdue(task);
-            }).length;
-
-
-        const outstanding =
-            tasks.length - completed;
-
-
-        const progress =
-            tasks.length
-                ? Math.round(
-                    (completed / tasks.length) * 100
-                )
-                : 0;
-
-
-        // Display progress
-
-        document.getElementById("progress-fill")
-            .style.width = progress + "%";
-
-
-        document.getElementById("stat-completed")
-            .textContent = completed;
-
-
-        document.getElementById("stat-outstanding")
-            .textContent = outstanding;
-
-
-        document.getElementById("stat-overdue")
-            .textContent = overdue;
-
-
-        // Recent activity
-
-        const activity = [
-
-            ...tasks
-                .filter(function(task) {
-                    return task.completed;
-                })
-                .map(function(task) {
-                    return task.title +
-                        " task completed";
-                }),
-
-
-            ...bookings.map(function() {
-                return "Support session booked";
-            }),
-
-
-            ...tasks
-                .filter(function(task) {
-                    return isOverdue(task);
-                })
-                .map(function(task) {
-                    return task.title +
-                        " task outstanding";
-                })
-
-        ];
-
-
-        const activityList =
-            document.getElementById(
-                "activity-list"
-            );
-
-
-        if (activity.length === 0) {
-
-            activityList.innerHTML =
-                "<li><span>No activity yet.</span></li>";
-
-        } else {
-
-            activityList.innerHTML =
-                activity
-                    .slice(0, 8)
-                    .map(function(item) {
-                        return `
-                            <li>
-                                <span>${item}</span>
-                            </li>
-                        `;
-                    })
-                    .join("");
-
-        }
-
-    } catch (error) {
-
-        console.error(error);
-
-        document.getElementById("activity-list")
-            .innerHTML =
-            "<li><span>Unable to load activity.</span></li>";
-
-    }
-
-});
+  document.getElementById('activity-list').innerHTML = activity.slice(0, 8)
+    .map(a => `<li><span>${escapeHtml(a)}</span></li>`).join('')
+    || '<li><span>No activity yet.</span></li>';
+}

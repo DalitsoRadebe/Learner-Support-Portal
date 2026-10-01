@@ -1,133 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Tasks — SkillsTrack</title>
-
-  <link
-    rel="stylesheet"
-    href="css/style.css"
-  >
-
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-
 <body>
-
   <div class="app">
-
-    <aside
-      class="sidebar"
-      id="sidebar"
-    ></aside>
-
+    <aside class="sidebar" id="sidebar"></aside>
     <div class="main">
-
-      <header
-        class="topbar"
-        id="topbar"
-      ></header>
-
+      <header class="topbar" id="topbar"></header>
       <main class="content">
-
-        <h1>My Learning Tasks</h1>
+        <h1>My learning tasks</h1>
 
         <div class="panel">
-
           <div class="toolbar">
-
             <div class="toolbar-group">
-
-              <input
-                class="search-input"
-                id="search"
-                type="search"
-                placeholder="Search Task"
-              >
-
-              <select id="filter">
-
-                <option value="all">
-                  Filter: All
-                </option>
-
-                <option value="pending">
-                  Pending
-                </option>
-
-                <option value="completed">
-                  Completed
-                </option>
-
-                <option value="overdue">
-                  Overdue
-                </option>
-
-              </select>
-
-              <select id="sort">
-
-                <option value="date">
-                  Sort: Due Date
-                </option>
-
-                <option value="title">
-                  Sort: Title
-                </option>
-
-              </select>
-
+              <input class="search-input" id="search" type="search" placeholder="Search task" aria-label="Search tasks" />
+              <div class="select-wrap">
+                <select id="filter" aria-label="Filter tasks">
+                  <option value="all">Filter: All</option>
+                  <option value="pending">Pending</option>
+                  <option value="completed">Completed</option>
+                  <option value="overdue">Overdue</option>
+                </select>
+              </div>
+              <div class="select-wrap">
+                <select id="sort" aria-label="Sort tasks">
+                  <option value="date">Sort: Due Date</option>
+                  <option value="title">Sort: Title</option>
+                </select>
+              </div>
             </div>
-
-            <a
-              class="btn btn-primary"
-              href="task-form.html"
-            >
-              + Add Task
-            </a>
-
+            <span class="muted">Tasks are sent to you by your facilitator.</span>
           </div>
 
-          <div class="table-container">
-
+          <div style="overflow-x:auto">
             <table>
-
               <thead>
-
                 <tr>
                   <th>Task</th>
-                  <th>Due Date</th>
+                  <th>Category</th>
+                  <th>Due</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
-
               </thead>
-
               <tbody id="task-rows"></tbody>
-
             </table>
-
           </div>
-
         </div>
-
       </main>
-
     </div>
-
   </div>
 
-  <script
-    type="module"
-    src="js/tasks.js"
-  ></script>
-
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/task.js"></script>
 </body>
-
 </html>
