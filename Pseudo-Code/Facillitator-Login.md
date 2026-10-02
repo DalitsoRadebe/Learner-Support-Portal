@@ -17,7 +17,7 @@ IF Login button is clicked THEN
 
 IF Email and Student_Password are correct THEN
 DISPLAY "Login Successful"
-REDIRECT TO "Dashboard"
+REDIRECT TO "Facillitator Dashboard"
 ELSE
 DISPLAY "Incorrect email or password"
 STOP
@@ -27,7 +27,7 @@ IF Forgotten Password is clicked THEN
 REDIRECT TO "Reset Password Page"
 END IF
 IF Register button is clicked THEN
-REDIRECT TO "Student Registration Page"
+REDIRECT TO "Facillitator Registration Page"
 END IF
 END
 

@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JavaScript Challenge — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <h1>JavaScript Challenge</h1>
+        <p class="quiz-score">SCORE: <span id="score">0</span> &nbsp;·&nbsp; BEST: <span id="best">0</span></p>
+
+        <div class="panel">
+          <div class="quiz-question" id="quiz-area">
+            <p>Press "Start Game" to begin the challenge.</p>
+          </div>
+          <div class="quiz-feedback" id="feedback" role="alert"></div>
+          <div style="text-align:center">
+            <button class="btn" id="submit-btn" type="button" hidden>SUBMIT ANSWER</button>
+            <button class="btn btn-primary" id="start-btn" type="button">START GAME</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/mini-game.js"></script>
+</body>
+</html>
