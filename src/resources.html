@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,11 +14,7 @@
       <main class="content">
         <h1>Resources</h1>
         <div class="panel">
-          <ul class="recent-list">
-            <li><span>JavaScript fundamentals guide</span><span class="status-pill pending">PDF</span></li>
-            <li><span>Firebase quick-start</span><span class="status-pill pending">Link</span></li>
-            <li><span>Portfolio checklist</span><span class="status-pill pending">PDF</span></li>
-          </ul>
+          <ul class="recent-list" id="resource-list"></ul>
         </div>
       </main>
     </div>
@@ -27,9 +22,6 @@
 
   <script src="js/storage.js"></script>
   <script src="js/shell.js"></script>
-  <script>
-    requireAuth();
-    renderShell('resources');
-  </script>
+  <script src="js/resources.js"></script>
 </body>
 </html>

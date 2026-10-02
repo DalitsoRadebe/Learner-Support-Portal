@@ -12,15 +12,25 @@
     <div class="main">
       <header class="topbar" id="topbar"></header>
       <main class="content">
-        <a class="back-link" href="javascript:history.back()">&larr; Back</a>
+        <a class="back-link" id="back-link" href="#">&larr; Back</a>
         <div class="panel">
           <div class="profile-header">
-            <div class="profile-avatar">&#128100;</div>
+            <div class="profile-avatar" id="profile-avatar"></div>
             <div>
               <h1 class="profile-name" id="profile-name"></h1>
               <p class="profile-email" id="profile-email"></p>
+              <p class="muted" id="profile-role"></p>
             </div>
           </div>
+
+          <!-- Profile picture controls: shown to learners only -->
+          <div class="profile-actions" id="photo-actions" hidden>
+            <input id="photo-input" type="file" accept="image/*" hidden />
+            <button class="btn btn-primary" id="photo-btn" type="button">Change picture</button>
+            <button class="btn" id="photo-remove-btn" type="button" hidden>Remove picture</button>
+          </div>
+          <div class="error-text" id="photo-error" role="alert"></div>
+
           <div class="profile-actions">
             <a class="btn" href="settings.html">Settings</a>
             <a class="btn" href="settings.html#password">Passwords</a>
@@ -32,13 +42,6 @@
 
   <script src="js/storage.js"></script>
   <script src="js/shell.js"></script>
-  <script>
-    const user = requireAuth();
-    renderShell('');
-    if (user) {
-      document.getElementById('profile-name').textContent = user.name;
-      document.getElementById('profile-email').textContent = user.email;
-    }
-  </script>
+  <script src="js/profile.js"></script>
 </body>
 </html>

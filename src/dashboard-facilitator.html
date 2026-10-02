@@ -36,7 +36,7 @@
         <div class="panel">
           <div class="panel-header">
             <h2>Student Overview</h2>
-            <input class="search-input" id="search" type="search" placeholder="Search Students" />
+            <input class="search-input" id="search" type="search" placeholder="Search Students" aria-label="Search students" />
           </div>
           <div style="overflow-x:auto">
             <table>
@@ -59,37 +59,6 @@
 
   <script src="js/storage.js"></script>
   <script src="js/shell.js"></script>
-  <script>
-    requireAuth('facilitator');
-    renderShell('dashboard');
-
-    document.getElementById('stat-total').textContent = FACILITATOR_STATS.totalStudents;
-    document.getElementById('stat-outstanding').textContent = FACILITATOR_STATS.outstandingTasks;
-    document.getElementById('stat-completed').textContent = FACILITATOR_STATS.completedTasks;
-    document.getElementById('stat-average').textContent = FACILITATOR_STATS.averageProgress + '%';
-
-    function statusClass(status) {
-      return status === 'On Track' ? 'on-track' : 'needs-attention';
-    }
-
-    function renderStudents(filter) {
-      const term = (filter || '').toLowerCase();
-      const rows = FACILITATOR_STUDENTS.filter(s =>
-        s.name.toLowerCase().includes(term) || s.class.toLowerCase().includes(term)
-      );
-      document.getElementById('student-rows').innerHTML = rows.map(s => `
-        <tr>
-          <td>${s.name}</td>
-          <td>${s.class}</td>
-          <td>${s.completedTasks}</td>
-          <td>${s.progress}%</td>
-          <td><span class="status-pill ${statusClass(s.status)}">${s.status}</span></td>
-        </tr>
-      `).join('') || '<tr><td colspan="5">No students match your search.</td></tr>';
-    }
-
-    renderStudents('');
-    document.getElementById('search').addEventListener('input', (e) => renderStudents(e.target.value));
-  </script>
+  <script src="js/dashboard-facilitator.js"></script>
 </body>
 </html>

@@ -1,4 +1,3 @@
-// Data access layer backed by Firebase Auth + Firestore.
 import { auth, db } from "./firebase-init.js";
 import {
   createUserWithEmailAndPassword,

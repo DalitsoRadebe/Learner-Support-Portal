@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,13 +15,13 @@
 
       <div class="field">
         <label for="email">Email</label>
-        <input id="email" type="email" placeholder="Student or Facilitator Email" required />
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="Student or Facilitator Email" required />
       </div>
 
       <div class="field">
         <label for="password">Password</label>
-        <input id="password" type="password" placeholder="Password" required />
-        <div class="error-text" id="error"></div>
+        <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Password" required />
+        <div class="error-text" id="error" role="alert"></div>
       </div>
 
       <div class="form-footer">
@@ -35,20 +36,6 @@
   </div>
 
   <script src="js/storage.js"></script>
-  <script>
-    document.getElementById('login-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const errorEl = document.getElementById('error');
-
-      const user = login(email, password);
-      if (!user) {
-        errorEl.textContent = 'Incorrect email or password.';
-        return;
-      }
-      window.location.href = user.role === 'facilitator' ? 'dashboard-facilitator.html' : 'dashboard-learner.html';
-    });
-  </script>
+  <script type="module" src="js/login.js"></script>
 </body>
 </html>
