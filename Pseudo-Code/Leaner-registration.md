@@ -44,4 +44,7 @@ SAVE Full_Name_And_Surname
 SAVE Email
 SAVE Retype_Password
 
+THEN REDIRECT TO
+"Learner-login page"
+
 END

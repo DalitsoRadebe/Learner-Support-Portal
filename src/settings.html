@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <h1>Settings</h1>
+
+        <div class="panel settings-section">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px">
+            <div class="profile-avatar" id="settings-avatar" style="width:56px;height:56px;font-size:22px"></div>
+            <div>
+              <div class="muted">Username</div>
+              <div id="settings-username" style="font-weight:700"></div>
+              <div class="muted" id="settings-role"></div>
+            </div>
+          </div>
+        </div>
+
+        <form class="panel settings-section" id="password-form" novalidate>
+          <div class="panel-header">
+            <h2 id="password">Change Password</h2>
+            <button class="btn btn-primary" type="submit">Update password</button>
+          </div>
+          <div class="field">
+            <label for="current-password">Current password</label>
+            <input id="current-password" type="password" autocomplete="current-password" placeholder="Enter current password" required />
+          </div>
+          <div class="field">
+            <label for="new-password">New password</label>
+            <input id="new-password" type="password" autocomplete="new-password" placeholder="Enter new password" required minlength="6" />
+          </div>
+          <div class="field">
+            <label for="confirm-password">Confirm new password</label>
+            <input id="confirm-password" type="password" autocomplete="new-password" placeholder="Confirm new password" required />
+            <div class="error-text" id="password-error" role="alert"></div>
+          </div>
+        </form>
+
+        <form class="panel settings-section" id="notifications-form">
+          <div class="panel-header">
+            <h2>Notification settings</h2>
+            <button class="btn btn-primary" type="submit">Save changes</button>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <div class="title">Email notifications</div>
+              <div class="desc">Receive email updates about tasks, progress and updates.</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggle-email" aria-label="Email notifications" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <div class="title">Task reminders</div>
+              <div class="desc">Receive reminders about upcoming and due tasks.</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggle-reminders" aria-label="Task reminders" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </form>
+
+        <form class="panel settings-section" id="privacy-form">
+          <div class="panel-header">
+            <h2>Privacy settings</h2>
+            <button class="btn btn-primary" type="submit">Save changes</button>
+          </div>
+          <p class="muted" style="margin-top:-8px">Manage your privacy and data preferences</p>
+          <div class="toggle-row">
+            <div>
+              <div class="title">Profile visibility</div>
+              <div class="desc">Control who can see your profile information</div>
+            </div>
+            <div class="select-wrap">
+              <select id="visibility" aria-label="Profile visibility">
+                <option>Only me</option>
+                <option>Facilitators</option>
+                <option>Everyone</option>
+              </select>
+            </div>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <div class="title">Active status</div>
+              <div class="desc">Allow others to see when you're active</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggle-active" aria-label="Active status" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </form>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script type="module" src="js/settings.js"></script>
+</body>
+</html>

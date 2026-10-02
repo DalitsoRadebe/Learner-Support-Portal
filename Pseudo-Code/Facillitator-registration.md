@@ -1,6 +1,7 @@
 START
 
 DISPLAY "Facillitator Registration Page"
+DISPLAY "Already have an account? login Facillitator"
 
 INPUT Full_Name_And_Surname
 INPUT Email
@@ -37,5 +38,12 @@ DISPLAY "Registration Successful"
 SAVE Full_Name_And_Surname
 SAVE Email
 SAVE Retype_Password
+
+THEN REDIRECT TO 
+"Facillitator login page"
+
+IF "Already have an account? login Facillitator" is CLICKED
+THEN REDIRECT TO "Facillitator login page"
+END IF
 
 END
