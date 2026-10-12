@@ -1,17 +1,104 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read, update: if request.auth != null && request.auth.uid == userId;
-      allow create: if request.auth != null && request.auth.uid == userId;
+
+    function signedIn() {
+      return request.auth != null;
     }
+
+    function isFacilitator() {
+      return signedIn()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'facilitator';
+    }
+
+    // Each user owns their profile. Facilitators can also read profiles, so
+    // they can pick the learners to send a task to, and anyone signed in can
+    // read facilitators' profiles, so learners can pick one to share a task
+    // with. A role cannot be changed once the profile exists.
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid
+                                    || isFacilitator()
+                                    || resource.data.role == 'facilitator');
+      allow create: if signedIn() && request.auth.uid == uid;
+      allow update: if signedIn() && request.auth.uid == uid
+                    && request.resource.data.role == resource.data.role;
+    }
+
+    // `uid` is the learner the task belongs to; `assignedByUid` is the
+    // facilitator who sent it. A task with no `assignedByUid` is one the
+    // learner added for themselves; `sharedWithUid` is then the facilitator
+    // they shared it with, if any.
     match /tasks/{taskId} {
-      allow read, update, delete: if request.auth != null && resource.data.uid == request.auth.uid;
-      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
+      allow read: if signedIn()
+                  && (resource.data.uid == request.auth.uid
+                      || resource.data.assignedByUid == request.auth.uid
+                      || resource.data.sharedWithUid == request.auth.uid);
+
+      allow create: if signedIn()
+                    && ((request.resource.data.uid == request.auth.uid
+                         && !('assignedByUid' in request.resource.data)
+                         && (!('sharedWithUid' in request.resource.data)
+                             || get(/databases/$(database)/documents/users/$(request.resource.data.sharedWithUid)).data.role == 'facilitator'))
+                        || (isFacilitator() && request.resource.data.assignedByUid == request.auth.uid));
+
+      // Learners can only hand in their work, and only until it is marked.
+      // The facilitator who sent the task, or the one it was shared with, can
+      // only mark it and give feedback.
+      allow update: if signedIn()
+                    && ((resource.data.uid == request.auth.uid
+                         && !('mark' in resource.data)
+                         && request.resource.data.diff(resource.data).affectedKeys()
+                              .hasOnly(['completed', 'submission']))
+                        || ((resource.data.assignedByUid == request.auth.uid
+                             || resource.data.sharedWithUid == request.auth.uid)
+                            && request.resource.data.diff(resource.data).affectedKeys()
+                                 .hasOnly(['mark', 'feedback', 'markedAt'])));
+
+      // The facilitator deletes tasks they sent; a learner deletes their own.
+      allow delete: if signedIn()
+                    && (resource.data.get('assignedByUid', null) == request.auth.uid
+                        || (resource.data.uid == request.auth.uid
+                            && !('assignedByUid' in resource.data)));
     }
+
+    // `uid` is the learner the session is for. A learner books a session with
+    // a facilitator (`bookedWithUid`). A facilitator can also book a session
+    // for a learner; `bookedByUid` is then that facilitator. Either side can
+    // cancel it.
     match /bookings/{bookingId} {
-      allow read, delete: if request.auth != null && resource.data.uid == request.auth.uid;
-      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
+      allow create: if signedIn()
+                    && ((request.resource.data.uid == request.auth.uid
+                         && !('bookedByUid' in request.resource.data)
+                         && (!('bookedWithUid' in request.resource.data)
+                             || get(/databases/$(database)/documents/users/$(request.resource.data.bookedWithUid)).data.role == 'facilitator'))
+                        || (isFacilitator() && request.resource.data.bookedByUid == request.auth.uid));
+      allow read, delete: if signedIn()
+                          && (resource.data.uid == request.auth.uid
+                              || resource.data.bookedByUid == request.auth.uid
+                              || resource.data.bookedWithUid == request.auth.uid);
+    }
+
+    // Links and files facilitators share with everyone signed in. Only the
+    // facilitator who added a resource can remove it.
+    match /resources/{resourceId} {
+      allow read: if signedIn();
+      allow create: if isFacilitator()
+                    && request.resource.data.createdByUid == request.auth.uid;
+      allow delete: if signedIn() && resource.data.createdByUid == request.auth.uid;
+    }
+
+    // Files attached to tasks, to learners' submissions and to resources.
+    // `readers` lists the uids allowed to download the file; a resource's
+    // file is `public` to anyone signed in. Files are fetched one at a time.
+    match /files/{fileId} {
+      allow get: if signedIn()
+                 && (request.auth.uid in resource.data.readers
+                     || resource.data.get('public', false) == true);
+      allow create: if signedIn()
+                    && request.resource.data.ownerUid == request.auth.uid
+                    && request.auth.uid in request.resource.data.readers;
+      allow delete: if signedIn() && resource.data.ownerUid == request.auth.uid;
     }
   }
 }

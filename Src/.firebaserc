@@ -1,7 +1,1 @@
-{
-  "projects": {
-    "Storage": "student-learning-portal-5cc54"
-  },
-  "targets": {},
-  "etags": {}
-}
+{ "projects": { "default": "student-learning-portal-5cc54" } }

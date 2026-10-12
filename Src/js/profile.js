@@ -1,4 +1,4 @@
-import {getfunctions, auth, updateCurrentUser} from './firebase.js';
+import "./cloud.js";
 
 let user = auth();
 

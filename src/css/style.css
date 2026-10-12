@@ -262,6 +262,43 @@ a:focus {
     color: var(--text);
 }
 
+.password-input {
+    position: relative;
+}
+
+.password-input input {
+    padding-right: 48px;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    padding: 6px;
+    display: grid;
+    place-items: center;
+    transform: translateY(-50%);
+    border: 0;
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--muted);
+}
+
+.password-toggle:hover {
+    color: var(--ink);
+}
+
+.password-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+.password-toggle[aria-pressed="true"] .password-toggle__slash {
+    display: none;
+}
+
 .field textarea {
     resize: vertical;
     min-height: 120px;
@@ -922,56 +959,344 @@ th {
 }
 
 /* =========================================================
-   MINI GAME
+   MINI GAME (Debug Challenge, styled after Code.org)
    ========================================================= */
 
-.quiz-score {
-    margin: 12px 0 0;
+.cg {
+    --cg-teal: #35bfc6;
+    --cg-purple: #7d5ba6;
+    --cg-orange: #f7931e;
+    --cg-orange-dark: #d97a0a;
+    --cg-green: #2e8b3e;
+    --cg-red: #c0392b;
+    --cg-frame: #d9d9d9;
 
-    font-size: 18px;
-    font-weight: 700;
+    border-radius: 6px;
+    overflow: hidden;
 
-    text-align: center;
+    background: var(--cg-frame);
 }
 
-.quiz-question {
-    margin: 20px 0;
-
-    padding: 24px;
-
-    border-radius: var(--radius);
-
-    background: var(--panel-light);
-}
-
-.quiz-options {
+.cg-title {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
 
-    gap: 10px;
+    gap: 8px 16px;
 
-    margin: 16px 0;
-    padding: 0;
+    padding: 14px 20px;
 
-    list-style: none;
+    background: var(--cg-teal);
+    color: var(--white);
+
+    font-size: 28px;
+    font-weight: 700;
 }
 
-.quiz-options li {
-    padding: 10px;
+.cg-title-score {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
 
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+.cg-stage {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+
+    gap: 20px;
+
+    margin: 14px;
+    padding: 20px;
+
+    border-radius: 4px;
 
     background: var(--white);
 }
 
-.quiz-options label {
+.cg-left,
+.cg-workspace {
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    min-width: 0;
+}
+
+/* Console: the play area on the left */
+
+.cg-console {
+    border: 3px solid var(--cg-orange);
+    border-radius: 6px;
+    overflow: hidden;
+
+    background: #1e1e2a;
+}
+
+.cg-console-head {
+    padding: 6px 12px;
+
+    background: var(--cg-orange);
+    color: var(--white);
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.cg-console pre {
+    min-height: 180px;
+    margin: 0;
+    padding: 14px;
+
+    color: #e8e8e8;
+
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 14px;
+    line-height: 1.5;
+
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.cg-console pre.cg-error {
+    color: #ffb4a8;
+}
+
+.cg-console pre.cg-ok {
+    color: #a8f0b4;
+}
+
+.cg-controls {
     display: flex;
     align-items: center;
 
-    gap: 10px;
+    gap: 16px;
+}
+
+.cg-run {
+    padding: 10px 26px;
+
+    border: 0;
+    border-radius: 6px;
+
+    background: var(--cg-orange);
+    color: var(--white);
+
+    font-size: 18px;
+    font-weight: 700;
 
     cursor: pointer;
+
+    box-shadow: 0 3px 0 var(--cg-orange-dark);
+}
+
+.cg-run:hover {
+    filter: brightness(1.05);
+}
+
+.cg-run:active {
+    transform: translateY(2px);
+
+    box-shadow: 0 1px 0 var(--cg-orange-dark);
+}
+
+.cg-run:disabled {
+    opacity: 0.6;
+
+    cursor: wait;
+}
+
+/* Tip bubbles with the round purple close button */
+
+.cg-callout {
+    position: relative;
+
+    padding: 12px 36px 12px 14px;
+
+    border: 2px solid var(--cg-frame);
+    border-radius: 6px;
+
+    background: var(--white);
+    color: #3d2d5c;
+
+    font-weight: 600;
+}
+
+.cg-callout p {
+    margin: 0;
+}
+
+.cg-callout-hint {
+    border-color: var(--cg-purple);
+}
+
+.cg-close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+
+    width: 28px;
+    height: 28px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: var(--cg-purple);
+    color: var(--white);
+
+    font-size: 18px;
+    line-height: 28px;
+
+    cursor: pointer;
+}
+
+/* Workspace: the code on the right */
+
+.cg-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 8px 14px;
+
+    border-radius: 4px;
+
+    background: var(--cg-purple);
+    color: var(--white);
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.cg-bar-pill {
+    padding: 2px 10px;
+
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.25);
+
+    font-variant-numeric: tabular-nums;
+}
+
+.cg-editor {
+    display: flex;
+
+    border: 2px solid var(--cg-frame);
+    border-radius: 6px;
+    overflow: hidden;
+
+    background: var(--white);
+}
+
+.cg-gutter,
+.cg-editor textarea {
+    margin: 0;
+    padding: 12px 10px;
+
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.cg-gutter {
+    min-width: 40px;
+    overflow: hidden;
+
+    background: #f1f1f1;
+    color: #9a9a9a;
+
+    text-align: right;
+
+    user-select: none;
+}
+
+.cg-editor textarea {
+    flex: 1;
+
+    min-height: 220px;
+
+    border: 0;
+    outline: none;
+
+    color: #2b2b2b;
+
+    resize: vertical;
+    white-space: pre;
+    overflow: auto;
+}
+
+.cg-editor:focus-within {
+    border-color: var(--cg-teal);
+}
+
+.cg-editor textarea[readonly] {
+    background: #fafafa;
+}
+
+/* Answers for "predict the output" levels, styled like code blocks */
+
+.cg-choices {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+}
+
+.cg-choice {
+    padding: 12px;
+
+    border: 0;
+    border-radius: 6px;
+
+    background: var(--cg-teal);
+    color: var(--white);
+
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: 0 3px 0 #2a9aa0;
+}
+
+.cg-choice:disabled {
+    cursor: default;
+
+    opacity: 0.55;
+}
+
+.cg-choice.correct {
+    background: var(--cg-green);
+
+    opacity: 1;
+
+    box-shadow: 0 3px 0 #1f6b2c;
+}
+
+.cg-choice.wrong {
+    background: var(--cg-red);
+
+    opacity: 1;
+
+    box-shadow: 0 3px 0 #8e2a20;
+}
+
+@media (max-width: 800px) {
+    .cg-stage {
+        grid-template-columns: 1fr;
+
+        margin: 8px;
+        padding: 14px;
+    }
+
+    .cg-title {
+        font-size: 22px;
+    }
 }
 
 /* =========================================================
@@ -1157,6 +1482,39 @@ th {
 
 #photo-actions {
     margin-top: 16px;
+}
+
+/* =========================================================
+   TASK WORK (learner's task page, facilitator's review page)
+   ========================================================= */
+
+.panel + .split,
+.split + .panel {
+    margin-top: 20px;
+}
+
+.task-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.work-text {
+    margin: 0 0 14px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.file-btn {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.mark-value {
+    font-size: 28px;
+    font-weight: 700;
 }
 
 /* Hidden elements stay hidden even when a class sets display */

@@ -24,12 +24,30 @@
 
       <div class="field">
         <label for="password">Create Password</label>
-        <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Facilitator Password" required minlength="6" />
+        <div class="password-input">
+          <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Facilitator Password" required minlength="6" />
+          <button class="password-toggle" type="button" aria-label="Show password" aria-controls="password" aria-pressed="false" title="Show password" data-password-toggle>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z" />
+              <circle cx="12" cy="12" r="3" />
+              <path class="password-toggle__slash" d="m3 3 18 18" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div class="field">
         <label for="confirm">Re-enter password</label>
-        <input id="confirm" name="confirm" type="password" autocomplete="new-password" placeholder="Facilitator password" required />
+        <div class="password-input">
+          <input id="confirm" name="confirm" type="password" autocomplete="new-password" placeholder="Facilitator password" required />
+          <button class="password-toggle" type="button" aria-label="Show password" aria-controls="confirm" aria-pressed="false" title="Show password" data-password-toggle>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z" />
+              <circle cx="12" cy="12" r="3" />
+              <path class="password-toggle__slash" d="m3 3 18 18" />
+            </svg>
+          </button>
+        </div>
         <div class="error-text" id="error" role="alert"></div>
       </div>
 
@@ -43,6 +61,7 @@
   </div>
 
   <script src="js/storage.js"></script>
+  <script src="js/password-visibility.js"></script>
   <script type="module" src="js/register-facilitator.js"></script>
 </body>
 </html>
