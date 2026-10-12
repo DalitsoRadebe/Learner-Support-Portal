@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 import "./cloud.js";
 
-const user = requireAuth('facilitator');
-=======
 const user = auth('facilitator');
->>>>>>> 7f7d19d161b4d024c41f06d06df9a656f5f89086
 
 const ALL_STUDENTS = '__all__';
 

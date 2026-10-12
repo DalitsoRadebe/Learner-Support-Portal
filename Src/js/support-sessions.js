@@ -3,7 +3,7 @@ import "./cloud.js";
 // A facilitator sees the support sessions learners booked with them, and the
 // ones they booked for learners (from review-task.html), and can cancel them.
 
-const user = requireAuth('facilitator');
+const user = auth('facilitator');
 
 function render() {
   const filter = document.getElementById('filter').value;

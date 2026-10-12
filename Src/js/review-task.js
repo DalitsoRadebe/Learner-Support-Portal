@@ -4,7 +4,7 @@ import "./cloud.js";
 // feedback, and can book a support session for that student. The task is one
 // this facilitator sent, or one the student added and shared with them.
 
-const user = requireAuth('facilitator');
+const user = auth('facilitator');
 
 const params = new URLSearchParams(window.location.search);
 const student = user ? getStudents().find(s => s.email === params.get('student')) : null;

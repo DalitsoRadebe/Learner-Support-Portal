@@ -1,16 +1,10 @@
-<<<<<<< HEAD
 import "./cloud.js";
 
 // A learner adds a task of their own to My Tasks, optionally with a file.
 // The task is private unless the learner shares it with a facilitator, who
 // can then see it and mark it. Facilitators send theirs from assign-task.html.
 
-const user = requireAuth('student');
-=======
-// Learners no longer create or edit tasks — only facilitators assign them.
-// Anyone who opens this page is sent to the right place instead.
-const user = auth();
->>>>>>> 7f7d19d161b4d024c41f06d06df9a656f5f89086
+const user = auth('student');
 
 if (user) {
   renderShell('tasks');

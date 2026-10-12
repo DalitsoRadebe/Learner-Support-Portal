@@ -6,7 +6,7 @@ import "./cloud.js";
 // themselves works the same way if they shared it with a facilitator;
 // otherwise the work is just saved for the learner.
 
-const user = requireAuth('student');
+const user = auth('student');
 
 const taskId = new URLSearchParams(window.location.search).get('id');
 
