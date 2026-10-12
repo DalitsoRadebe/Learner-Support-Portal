@@ -5,6 +5,7 @@ const NAV_ITEMS = [
   { key: 'resources', label: 'Resources', href: 'resources.html', roles: ['student', 'facilitator'] },
   { key: 'progress', label: 'Progress report', href: 'progress.html', roles: ['student'] },
   { key: 'support', label: 'Support Booking', href: 'support-booking.html', roles: ['student'] },
+  { key: 'sessions', label: 'Support Sessions', href: 'support-sessions.html', roles: ['facilitator'] },
   { key: 'game', label: 'Mini game', href: 'mini-game.html', roles: ['student'] },
 ];
 
@@ -61,17 +62,24 @@ function renderShell(active) {
   }
 }
 
-// Small confirmation message that fades out by itself.
-function flashMessage(text) {
+// A button that downloads an attached file. `file` is the record kept on a
+// task: { fileId, name, size }. cloud.js handles the click.
+function fileButtonHtml(file) {
+  return `<button type="button" class="btn file-btn" data-file-id="${escapeHtml(file.fileId)}">`
+    + `Download ${escapeHtml(file.name)} <span class="muted">(${formatSize(file.size)})</span></button>`;
+}
+
+// Small message that fades out by itself. `kind` is 'success' or 'error'.
+function flashMessage(text, kind = 'success') {
   let toast = document.getElementById('toast');
   if (!toast) {
     toast = document.createElement('div');
     toast.id = 'toast';
-    toast.className = 'form-message success toast';
     document.body.appendChild(toast);
   }
+  toast.className = `form-message ${kind} toast`;
   toast.textContent = text;
   toast.hidden = false;
   clearTimeout(flashMessage.timer);
-  flashMessage.timer = setTimeout(() => { toast.hidden = true; }, 2500);
+  flashMessage.timer = setTimeout(() => { toast.hidden = true; }, kind === 'error' ? 6000 : 2500);
 }

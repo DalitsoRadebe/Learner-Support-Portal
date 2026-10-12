@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mark Task — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <a class="back-link" href="assign-task.html">&larr; Back to tasks</a>
+        <h1 id="task-title"></h1>
+
+        <div class="panel">
+          <div class="task-meta" id="task-meta"></div>
+          <p class="work-text" id="task-instructions"></p>
+          <div id="task-attachment"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header"><h2 id="work-heading">Student's work</h2></div>
+          <div id="work"></div>
+        </div>
+
+        <div class="split">
+          <form class="panel" id="mark-form" novalidate>
+            <div class="panel-header"><h2>Mark and feedback</h2></div>
+
+            <div class="field">
+              <label for="mark">Mark (%)</label>
+              <input id="mark" type="number" min="0" max="100" step="1" required />
+            </div>
+
+            <div class="field">
+              <label for="feedback">Feedback for the student</label>
+              <textarea id="feedback" maxlength="2000"></textarea>
+              <div class="error-text" id="mark-error" role="alert"></div>
+            </div>
+
+            <button class="btn btn-primary" id="mark-btn" type="submit" style="width:100%">SEND MARK AND FEEDBACK</button>
+          </form>
+
+          <div class="panel">
+            <form id="booking-form" novalidate>
+              <div class="panel-header"><h2>Book a support session for this student</h2></div>
+
+              <div class="field-row">
+                <div class="field">
+                  <label for="date">Date</label>
+                  <input id="date" type="date" required />
+                </div>
+                <div class="field">
+                  <label for="time">Time</label>
+                  <input id="time" type="time" required />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="notes">Note for the student (optional)</label>
+                <textarea id="notes" maxlength="500"></textarea>
+                <div class="error-text" id="booking-error" role="alert"></div>
+              </div>
+
+              <button class="btn btn-primary" type="submit">BOOK SESSION</button>
+            </form>
+
+            <ul class="recent-list" id="booking-list"></ul>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script type="module" src="js/review-task.js"></script>
+</body>
+</html>

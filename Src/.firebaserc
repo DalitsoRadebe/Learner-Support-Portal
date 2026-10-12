@@ -1,7 +1,13 @@
 {
   "projects": {
+<<<<<<< HEAD
     "Storage": "student-learning-portal-5cc54"
   },
   "targets": {},
   "etags": {}
 }
+=======
+    "default": "student-learning-portal-5cc54"
+  }
+}
+>>>>>>> origin/main
