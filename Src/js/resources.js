@@ -4,7 +4,7 @@ const RESOURCES = [
   { title: 'Portfolio checklist', type: 'PDF' },
 ];
 
-const user = requireAuth();
+const user = auth();
 
 if (user) {
   renderShell('resources');
