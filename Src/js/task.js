@@ -1,3 +1,5 @@
+import "./cloud.js";
+
 const user = requireAuth('student');
 
 function render() {
@@ -18,24 +20,35 @@ function render() {
 
   const emptyText = all.length
     ? 'No tasks match your search or filter.'
-    : 'No tasks yet. Your facilitator has not sent you any.';
+    : 'No tasks yet. Add one of your own, or wait for your facilitator to send you one.';
 
   document.getElementById('task-rows').innerHTML = tasks.map(t => {
     const status = taskStatus(t);
-    // Learners can only mark tasks complete — facilitators create and delete them.
+    // Facilitators send tasks; learners can also add their own
+    // (task-form.html) and share them with a facilitator. Learners open one
+    // to read it and do the work (task-view.html), and can delete only the
+    // tasks they added.
     const from = (t.assignedBy
       ? `<div class="muted">Assigned by ${escapeHtml(t.assignedByName || 'your facilitator')}</div>`
-      : '')
-      + (t.instructions ? `<div class="muted">${escapeHtml(t.instructions)}</div>` : '');
+      : t.sharedWith
+        ? `<div class="muted">Added by you · shared with ${escapeHtml(t.sharedWithName || t.sharedWith)}</div>`
+        : '<div class="muted">Added by you</div>')
+      + (t.attachment ? '<div class="muted">Has an attached file</div>' : '');
+    const action = !reviewerOf(t) ? 'Open'
+      : isMarked(t) ? 'View feedback' : t.submission ? 'View submission' : 'Open and submit';
+    const remove = t.assignedBy
+      ? ''
+      : `<button type="button" class="danger" data-id="${escapeHtml(t.id)}">Delete</button>`;
     return `
       <tr>
         <td><span class="${t.completed ? 'task-done' : ''}">${escapeHtml(t.title)}</span>${from}</td>
         <td>${escapeHtml(t.category || 'Other')}</td>
         <td>${escapeHtml(formatDate(t.date))}</td>
-        <td><span class="status-pill ${status.cls}">${status.label}</span></td>
+        <td><span class="status-pill ${status.cls}">${escapeHtml(status.label)}</span></td>
         <td>
           <div class="row-actions">
-            <button type="button" data-action="complete" data-id="${escapeHtml(t.id)}">${t.completed ? 'Mark incomplete' : 'Complete'}</button>
+            <a href="task-view.html?id=${encodeURIComponent(t.id)}">${action}</a>
+            ${remove}
           </div>
         </td>
       </tr>`;
@@ -45,17 +58,13 @@ function render() {
 if (user) {
   renderShell('tasks');
 
-  document.getElementById('task-rows').addEventListener('click', (e) => {
-    const btn = e.target.closest('button[data-action]');
-    if (!btn) return;
-    const id = btn.dataset.id;
-    if (btn.dataset.action === 'complete') {
-      const task = getTasks(user.email).find(t => t.id === id);
-      if (task) updateTask(user.email, id, { completed: !task.completed });
-    }
-    render();
-  });
-
   ['search', 'filter', 'sort'].forEach(id => document.getElementById(id).addEventListener('input', render));
   render();
+
+  document.getElementById('task-rows').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-id]');
+    if (!btn || !confirm('Delete this task?')) return;
+    deleteTask(user.email, btn.dataset.id);
+    render();
+  });
 }

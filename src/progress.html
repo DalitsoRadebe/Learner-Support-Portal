@@ -20,6 +20,7 @@
           <div class="progress-bar-track" id="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
             <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
           </div>
+          <p class="muted" id="progress-detail" style="text-align:center;margin-bottom:0"></p>
         </div>
 
         <div class="stat-grid">
@@ -36,7 +37,7 @@
             <div class="value" id="stat-overdue"></div>
           </div>
           <div class="stat-card">
-            <div class="label">Best quiz score</div>
+            <div class="label">Best game score</div>
             <div class="value" id="stat-quiz"></div>
           </div>
         </div>
@@ -56,6 +57,6 @@
 
   <script src="js/storage.js"></script>
   <script src="js/shell.js"></script>
-  <script src="js/progress.js"></script>
+  <script type="module" src="js/progress.js"></script>
 </body>
 </html>

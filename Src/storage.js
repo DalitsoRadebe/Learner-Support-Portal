@@ -101,22 +101,8 @@ function login(email, password) {
   return user;
 }
 
-// Accounts live only in this browser, so there is no email to send a reset
-// link to — the forgot-password page sets the new password directly.
-function resetPassword(email, newPassword) {
-  const user = findUser(email);
-  if (!user) {
-    return { ok: false, error: 'No account with that email was found in this browser.' };
-  }
-  if (newPassword.length < 6) {
-    return { ok: false, error: 'Password should be at least 6 characters.' };
-  }
-  const users = getUsers();
-  const idx = users.findIndex(u => u.email === user.email);
-  users[idx] = { ...users[idx], password: newPassword };
-  saveUsers(users);
-  return { ok: true };
-}
+// Passwords are only ever reset by the email link Firebase sends
+// (forgot-password.html, sendResetLink in auth.js).
 
 function getCurrentUser() {
   const email = localStorage.getItem(DB.SESSION);

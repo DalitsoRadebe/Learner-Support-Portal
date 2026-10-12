@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JavaScript Challenge — SkillsTrack</title>
+  <title>Debug Challenge — SkillsTrack</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -13,17 +12,53 @@
     <div class="main">
       <header class="topbar" id="topbar"></header>
       <main class="content">
-        <h1>JavaScript Challenge</h1>
-        <p class="quiz-score">SCORE: <span id="score">0</span> &nbsp;·&nbsp; BEST: <span id="best">0</span></p>
-
-        <div class="panel">
-          <div class="quiz-question" id="quiz-area">
-            <p>Press "Start Game" to begin the challenge.</p>
+        <div class="cg">
+          <div class="cg-title">
+            <span>Debug Challenge</span>
+            <span class="cg-title-score">SCORE <strong id="score">0</strong> · BEST <strong id="best">0</strong></span>
           </div>
-          <div class="quiz-feedback" id="feedback" role="alert"></div>
-          <div style="text-align:center">
-            <button class="btn" id="submit-btn" type="button" hidden>SUBMIT ANSWER</button>
-            <button class="btn btn-primary" id="start-btn" type="button">START GAME</button>
+
+          <div class="cg-stage">
+            <!-- Left: what the code printed, the Run button and the goal -->
+            <div class="cg-left">
+              <div class="cg-console">
+                <div class="cg-console-head">Console</div>
+                <pre id="output" aria-live="polite">Broken JavaScript is waiting for you.
+Fix it, run it, and beat the clock for bonus points.</pre>
+              </div>
+
+              <div class="cg-controls">
+                <button class="cg-run" id="run-btn" type="button">&#9654; Start</button>
+                <button class="btn-link" id="skip-btn" type="button" hidden>Skip level</button>
+              </div>
+
+              <div class="cg-callout" id="goal" hidden>
+                <button class="cg-close" type="button" aria-label="Hide this tip" data-close="goal">&times;</button>
+                <p id="goal-text"></p>
+              </div>
+            </div>
+
+            <!-- Right: the code, like a Code.org workspace -->
+            <div class="cg-workspace">
+              <div class="cg-bar">
+                <span id="mode">Code</span>
+                <span id="level">Level 0 / 0</span>
+                <span class="cg-bar-pill" id="timer">0:00</span>
+              </div>
+
+              <div class="cg-editor">
+                <pre class="cg-gutter" id="gutter" aria-hidden="true">1</pre>
+                <textarea id="code" spellcheck="false" autocomplete="off" aria-label="Code" readonly></textarea>
+              </div>
+
+              <div class="cg-choices" id="choices" hidden></div>
+
+              <div class="cg-callout cg-callout-hint" id="hint" hidden>
+                <button class="cg-close" type="button" aria-label="Hide the hint" data-close="hint">&times;</button>
+                <p id="hint-text"></p>
+              </div>
+              <button class="btn-link" id="hint-btn" type="button" hidden>Need a hint?</button>
+            </div>
           </div>
         </div>
       </main>
@@ -32,6 +67,6 @@
 
   <script src="js/storage.js"></script>
   <script src="js/shell.js"></script>
-  <script src="js/mini-game.js"></script>
+  <script type="module" src="js/mini-game.js"></script>
 </body>
 </html>

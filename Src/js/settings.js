@@ -1,3 +1,4 @@
+import "./cloud.js";
 import { changePassword } from "./auth.js";
 
 const user = requireAuth();

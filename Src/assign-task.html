@@ -44,12 +44,18 @@
 
               <div class="field">
                 <label for="instructions">Instructions (optional)</label>
-                <textarea id="instructions" maxlength="500"></textarea>
+                <textarea id="instructions" maxlength="2000"></textarea>
+              </div>
+
+              <div class="field">
+                <label for="file">Attach a file (optional)</label>
+                <input id="file" type="file" />
+                <div class="muted" id="file-hint"></div>
                 <div class="error-text" id="error" role="alert"></div>
               </div>
 
               <div class="form-footer">
-                <span class="muted">Only students registered in this browser are listed.</span>
+                <span class="muted">Students upload their work back to you here for marking.</span>
                 <button class="btn btn-primary" id="send-btn" type="submit">SEND TASK</button>
               </div>
             </form>
@@ -57,7 +63,7 @@
 
           <div class="panel">
             <div class="panel-header">
-              <h2>Tasks you have sent</h2>
+              <h2>Tasks you have sent or students shared</h2>
             </div>
             <div style="overflow-x:auto">
               <table>
@@ -81,6 +87,6 @@
 
   <script src="js/storage.js"></script>
   <script src="js/shell.js"></script>
-  <script src="js/assign-task.js"></script>
+  <script type="module" src="js/assign-task.js"></script>
 </body>
 </html>

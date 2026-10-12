@@ -1,3 +1,5 @@
+import "./cloud.js";
+
 let user = requireAuth();
 
 // Pictures are shrunk to this size before saving, so they stay small enough

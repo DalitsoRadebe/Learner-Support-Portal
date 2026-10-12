@@ -13,6 +13,48 @@
       <header class="topbar" id="topbar"></header>
       <main class="content">
         <h1>Resources</h1>
+
+        <!-- Facilitators only -->
+        <form class="panel" id="resource-form" novalidate hidden>
+          <div class="panel-header"><h2>Add a resource</h2></div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="title">Title</label>
+              <input id="title" maxlength="120" required />
+            </div>
+            <div class="field">
+              <label for="kind">Type</label>
+              <select id="kind">
+                <option value="file">File upload</option>
+                <option value="link">Web link</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field" id="file-field">
+            <label for="file">File</label>
+            <input id="file" type="file" />
+            <div class="muted" id="file-hint"></div>
+          </div>
+
+          <div class="field" id="url-field" hidden>
+            <label for="url">Link</label>
+            <input id="url" type="url" placeholder="https://" />
+          </div>
+
+          <div class="field">
+            <label for="description">Description (optional)</label>
+            <textarea id="description" maxlength="500"></textarea>
+            <div class="error-text" id="error" role="alert"></div>
+          </div>
+
+          <div class="form-footer">
+            <span class="muted">Every learner and facilitator can see and download it.</span>
+            <button class="btn btn-primary" id="add-btn" type="submit">ADD RESOURCE</button>
+          </div>
+        </form>
+
         <div class="panel">
           <ul class="recent-list" id="resource-list"></ul>
         </div>
@@ -22,6 +64,6 @@
 
   <script src="js/storage.js"></script>
   <script src="js/shell.js"></script>
-  <script src="js/resources.js"></script>
+  <script type="module" src="js/resources.js"></script>
 </body>
 </html>

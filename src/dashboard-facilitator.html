@@ -33,17 +33,34 @@
           </div>
         </div>
 
+        <div class="split">
+          <div class="panel">
+            <div class="panel-header">
+              <h2>Tasks learners shared with you</h2>
+              <a class="btn-link" href="assign-task.html">View All</a>
+            </div>
+            <ul class="recent-list" id="shared-list"></ul>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <h2>Upcoming support bookings</h2>
+              <a class="btn-link" href="support-sessions.html">View All</a>
+            </div>
+            <ul class="recent-list" id="booking-list"></ul>
+          </div>
+        </div>
+
         <div class="panel">
           <div class="panel-header">
             <h2>Student Overview</h2>
-            <input class="search-input" id="search" type="search" placeholder="Search Students" aria-label="Search students" />
+            <input class="search-input" id="search" type="search" placeholder="Search by name or email" aria-label="Search students" />
           </div>
           <div style="overflow-x:auto">
             <table>
               <thead>
                 <tr>
                   <th>Student Name</th>
-                  <th>Class</th>
+                  <th>Email</th>
                   <th>Completed Tasks</th>
                   <th>Progress</th>
                   <th>Status</th>
@@ -59,6 +76,6 @@
 
   <script src="js/storage.js"></script>
   <script src="js/shell.js"></script>
-  <script src="js/dashboard-facilitator.js"></script>
+  <script type="module" src="js/dashboard-facilitator.js"></script>
 </body>
 </html>

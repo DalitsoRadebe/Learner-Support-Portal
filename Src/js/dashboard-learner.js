@@ -1,3 +1,5 @@
+import "./cloud.js";
+
 const user = requireAuth('student');
 
 if (user) {
@@ -20,8 +22,8 @@ if (user) {
   document.getElementById('recent-list').innerHTML = recent.map(t => {
     const status = taskStatus(t);
     return `<li>
-      <span>${escapeHtml(t.title)} <span class="muted">· due ${escapeHtml(formatDate(t.date))}</span></span>
-      <span class="status-pill ${status.cls}">${status.label}</span>
+      <span><a href="task-view.html?id=${encodeURIComponent(t.id)}">${escapeHtml(t.title)}</a> <span class="muted">· due ${escapeHtml(formatDate(t.date))}</span></span>
+      <span class="status-pill ${status.cls}">${escapeHtml(status.label)}</span>
     </li>`;
   }).join('') || '<li><span>No tasks yet — your facilitator has not sent you any.</span></li>';
 }
