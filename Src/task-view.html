@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task — SkillsTrack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <a class="back-link" href="tasks.html">&larr; Back to my tasks</a>
+        <h1 id="task-title"></h1>
+
+        <div class="panel">
+          <div class="task-meta" id="task-meta"></div>
+          <p class="work-text" id="task-instructions"></p>
+          <div id="task-attachment"></div>
+        </div>
+
+        <!-- Shown once the facilitator has marked the work -->
+        <div class="panel" id="feedback-panel" hidden>
+          <div class="panel-header"><h2>Mark and feedback</h2></div>
+          <p class="mark-value" id="mark-value"></p>
+          <p class="work-text" id="feedback-text"></p>
+          <a class="btn" href="support-booking.html">Support bookings</a>
+        </div>
+
+        <!-- Shown after marking: the work can no longer be changed -->
+        <div class="panel" id="submitted-panel" hidden>
+          <div class="panel-header"><h2>Your work</h2></div>
+          <div id="submitted-work"></div>
+        </div>
+
+        <form class="panel" id="work-form" novalidate hidden>
+          <div class="panel-header"><h2>Your work</h2></div>
+          <p class="muted" id="work-note"></p>
+
+          <div class="field">
+            <label for="answer">Write your answer</label>
+            <textarea id="answer" maxlength="10000" rows="10"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="file">Upload a file (optional)</label>
+            <input id="file" type="file" />
+            <div class="muted" id="file-hint"></div>
+            <div id="current-file"></div>
+            <div class="error-text" id="error" role="alert"></div>
+          </div>
+
+          <button class="btn btn-primary" id="submit-btn" type="submit">SUBMIT TO FACILITATOR</button>
+        </form>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shell.js"></script>
+  <script type="module" src="js/task-view.js"></script>
+</body>
+</html>

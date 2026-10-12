@@ -19,9 +19,15 @@
           <form class="panel" id="booking-form" novalidate>
             <div class="panel-header"><h2>Book a support session</h2></div>
 
-            <div class="field">
-              <label for="topic">Topic</label>
-              <select id="topic"></select>
+            <div class="field-row">
+              <div class="field">
+                <label for="facilitator">Book with</label>
+                <select id="facilitator"></select>
+              </div>
+              <div class="field">
+                <label for="topic">Topic</label>
+                <select id="topic"></select>
+              </div>
             </div>
 
             <div class="field-row">
@@ -55,6 +61,6 @@
 
   <script src="js/storage.js"></script>
   <script src="js/shell.js"></script>
-  <script src="js/support-booking.js"></script>
+  <script type="module" src="js/support-booking.js"></script>
 </body>
 </html>

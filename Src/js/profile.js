@@ -1,4 +1,12 @@
+<<<<<<< HEAD
+import "./cloud.js";
+
 let user = requireAuth();
+=======
+import {getfunctions, auth, updateCurrentUser} from './firebase.js';
+
+let user = auth();
+>>>>>>> 7f7d19d161b4d024c41f06d06df9a656f5f89086
 
 // Pictures are shrunk to this size before saving, so they stay small enough
 // for the browser's storage.

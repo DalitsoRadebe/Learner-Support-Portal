@@ -1,6 +1,7 @@
 // Account passwords live in Firebase Authentication, so Firebase can email a
 // real password-reset link. Everything else about a user (name, role,
-// settings, tasks, picture) still lives in this browser via storage.js.
+// settings, tasks, picture) is kept in Firestore by cloud.js, with a copy in
+// this browser via storage.js.
 //
 // This file is a module; storage.js must be loaded before it as a normal
 // script so its helpers (findUser, getUsers, saveUsers, DB, ...) are available.
@@ -30,8 +31,7 @@ function friendlyAuthError(error) {
     "auth/user-not-found": "Incorrect email or password.",
     "auth/too-many-requests": "Too many attempts. Please wait a moment and try again.",
     "auth/network-request-failed": "Could not reach the server. Check your internet connection and try again.",
-    "auth/operation-not-allowed": "Email and password sign-in is not switched on for this Firebase project.",
-  };
+    "auth/operation-not-allowed": "Email and password sign-in is not switched on for this Firebase project.",  };
   return map[error.code] || error.message || "Something went wrong. Please try again.";
 }
 
@@ -56,9 +56,9 @@ function isBrowserOnly(user) {
   return Boolean(user && !user.firebase && user.password);
 }
 
-// Name and role are also copied to Firestore so the account can be opened in
-// another browser. This is a bonus: if the Firestore rules block it, sign-up
-// and login in this browser still work.
+// Name and role go to Firestore so the account can be opened in another
+// browser. If this write fails, sign-up and login in this browser still work
+// and cloud.js creates the profile on the next page.
 async function saveCloudProfile(uid, user) {
   try {
     await setDoc(doc(db, "users", uid), { name: user.name, email: user.email, role: user.role }, { merge: true });
