@@ -1,6 +1,6 @@
 import "./cloud.js";
 
-const user = requireAuth('student');
+const user = auth('student');
 
 function renderBookings() {
   const bookings = getBookings(user.email)

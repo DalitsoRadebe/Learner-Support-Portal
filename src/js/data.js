@@ -90,7 +90,7 @@ export async function changePassword(currentPassword, newPassword) {
 // Gate a page behind login. Calls onReady(firebaseUser, profile) once both
 // the auth state and the Firestore profile doc are available. If `role` is
 // given, users of the wrong role are bounced to their own dashboard.
-export function requireAuth(role, onReady) {
+export function auth(role, onReady) {
   return watchAuth(async (fbUser) => {
     if (!fbUser) {
       window.location.href = "login.html";

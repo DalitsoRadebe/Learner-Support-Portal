@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import "./cloud.js";
 
 const user = requireAuth('student');
+=======
+const user = auth('student');
+>>>>>>> 7f7d19d161b4d024c41f06d06df9a656f5f89086
 
 function render() {
   const term = document.getElementById('search').value.trim().toLowerCase();

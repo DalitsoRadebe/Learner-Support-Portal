@@ -8,7 +8,7 @@ const BUILT_IN = [
   { id: 'built-in-firebase', title: 'Firebase quick-start', url: 'https://firebase.google.com/docs/web/setup' },
 ];
 
-const user = requireAuth();
+const user = auth();
 
 // Only web addresses are allowed, so a link cannot run code when clicked.
 function isWebUrl(value) {

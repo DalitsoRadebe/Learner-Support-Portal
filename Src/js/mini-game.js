@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import "./cloud.js";
 
 // Debug Challenge: each level is a small JavaScript program. In a "fix"
@@ -7,6 +8,9 @@ import "./cloud.js";
 // it prints. Every solved level is worth BASE_POINTS, plus a speed bonus.
 
 const user = requireAuth('student');
+=======
+const user = auth('student');
+>>>>>>> 7f7d19d161b4d024c41f06d06df9a656f5f89086
 
 const BASE_POINTS = 100;
 const MAX_BONUS = 50;
