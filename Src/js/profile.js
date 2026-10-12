@@ -1,4 +1,6 @@
-let user = requireAuth();
+import {getfunctions, auth, updateCurrentUser} from './firebase.js';
+
+let user = auth();
 
 // Pictures are shrunk to this size before saving, so they stay small enough
 // for the browser's storage.
