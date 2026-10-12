@@ -154,7 +154,7 @@ function dashboardFor(user) {
 // Redirects to login if no session; if `role` is given, redirects users of
 // the wrong role to their own dashboard instead of the page they asked for.
 // Returns the user, or null when a redirect is under way.
-function requireAuth(role) {
+function auth(role) {
   const user = getCurrentUser();
   if (!user) {
     window.location.href = 'login.html';

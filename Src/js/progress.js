@@ -1,4 +1,4 @@
-const user = requireAuth('student');
+const user = auth('student');
 
 if (user) {
   renderShell('progress');

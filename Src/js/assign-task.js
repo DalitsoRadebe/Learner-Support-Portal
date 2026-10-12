@@ -1,4 +1,4 @@
-const user = requireAuth('facilitator');
+const user = auth('facilitator');
 
 const ALL_STUDENTS = '__all__';
 

@@ -1,4 +1,4 @@
-const user = requireAuth('student');
+const user = auth('student');
 
 function render() {
   const term = document.getElementById('search').value.trim().toLowerCase();

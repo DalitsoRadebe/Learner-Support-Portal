@@ -1,4 +1,4 @@
-const user = requireAuth('student');
+const user = auth('student');
 
 const POINTS_PER_QUESTION = 20;
 const QUESTIONS = [
