@@ -1,5 +1,1 @@
-{
-  "firestore": {
-    "rules": "firestore.rules"
-  }
-}
+{ "firestore": { "rules": "firestore.rules" }, "hosting": { "public": ".", "ignore": [ "firebase.json", "/.", "/nodemodules/" ], "cleanUrls": false } }
