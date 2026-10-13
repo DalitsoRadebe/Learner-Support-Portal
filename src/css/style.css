@@ -18,12 +18,48 @@
     box-sizing: border-box;
 }
 
-.avatar{
+.btn{
     transition-duration: 0.2s;
 }
-.avatar:hover{
+#continue-btn,
+#continue-btn:hover {
+    width: auto;
+    background: var(--white);
+}
+
+.nav-link{
+    transition-duration: 0.2s;
+}
+.nav-link:hover{
+    width: 150%;
+}
+
+.cg-run{
+    transition-duration: 0.2s;
+}
+.cg-run:hover{
     width: 50%;
 }
+
+.cg-choice{
+    transition-duration: 0.2s;
+}
+.cg-choice:hover{
+    color: blueviolet;
+}
+
+
+.btn{
+    transition-duration: 0.2s;
+}
+.btn:hover{
+    width: 30%;
+}
+
+
+
+
+
 html {
     scroll-behavior: smooth;
 }
